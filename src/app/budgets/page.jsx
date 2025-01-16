@@ -1,8 +1,9 @@
-const BudgetsPage = () => {
+import React from 'react';
+
+export default function BudgetsPage() {
     return (
-        <>
-            Budget
-        </>
+        <div>
+            <h1>Budget</h1>
+        </div>
     );
 }
-export default BudgetsPage
