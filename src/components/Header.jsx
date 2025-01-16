@@ -1,7 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider"
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext);
+
+    if (!currentUser) {
+        navigate("/");
+    }
+
+    const handleLogout = () => {
+        auth.signOut();
+    };
+
+
 
     return (
         <div className="min-h-full">
@@ -45,7 +61,7 @@ const Header = () => {
                                         <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
                                             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">My Profile</a>
                                             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</a>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+                                            <a href="#" handleLogout={handleLogout} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
                                         </div>
                                     )}
                                 </div>
@@ -97,7 +113,7 @@ const Header = () => {
                             <div className="mt-3 space-y-1 px-2">
                                 <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">My Profile</a>
                                 <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
-                                <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</a>
+                                <a href="#" handleLogout={handleLogout} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</a>
                             </div>
                         </div>
                     </div>

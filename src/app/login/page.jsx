@@ -21,7 +21,7 @@ export default function LoginPage() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await signInWithEmailAndPassword(auth, username, password);
+            await signInWithEmailAndPassword(auth, email, password);
             setError(""); // Clear any previous error
         } catch (error) {
             console.error(error);
@@ -36,7 +36,7 @@ export default function LoginPage() {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" action="#" method="POST">
+                <form onSubmit={handleLogin} className="space-y-6" action="#" method="POST">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-foreground">Email address</label>
                         <div className="mt-2">
@@ -80,11 +80,9 @@ export default function LoginPage() {
                             Sign in
                         </button>
                     </div>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {message && <Alert variant="success">{message}</Alert>}
+
                 </form>
-                {error && <Alert variant="danger">{error}</Alert>}
-                {message && <Alert variant="success">{message}</Alert>}
+
                 <p className="mt-10 text-center text-sm text-foreground">
                     Not a member?
                     <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500"> Register Now</a>
