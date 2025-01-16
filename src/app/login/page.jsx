@@ -1,6 +1,33 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { AuthContext } from '../../context/AuthProvider';
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+export default function LoginPage() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (currentUser) navigate("/budgets");
+    }, [currentUser, navigate]);
+
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            await signInWithEmailAndPassword(auth, username, password);
+            setError(""); // Clear any previous error
+        } catch (error) {
+            console.error(error);
+            setError("Invalid email or password. Please try again."); // Set error message
+        }
+    };
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-foreground">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -14,6 +41,7 @@ const LoginPage = () => {
                         <label htmlFor="email" className="block text-sm font-medium text-foreground">Email address</label>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setEmail(e.target.value)}
                                 type="email"
                                 name="email"
                                 id="email"
@@ -27,12 +55,13 @@ const LoginPage = () => {
                     <div>
                         <div className="flex items-center justify-between">
                             <label htmlFor="password" className="block text-sm font-medium text-foreground">Password</label>
-                            <div className="text-sm">
+                            {/* <div className="text-sm">
                                 <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setPassword(e.target.value)}
                                 type="password"
                                 name="password"
                                 id="password"
@@ -51,15 +80,18 @@ const LoginPage = () => {
                             Sign in
                         </button>
                     </div>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    {message && <Alert variant="success">{message}</Alert>}
                 </form>
-
+                {error && <Alert variant="danger">{error}</Alert>}
+                {message && <Alert variant="success">{message}</Alert>}
                 <p className="mt-10 text-center text-sm text-foreground">
                     Not a member?
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500"> Start a 14 day free trial</a>
+                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500"> Register Now</a>
                 </p>
             </div>
         </div>
     );
 }
 
-export default LoginPage;
+
