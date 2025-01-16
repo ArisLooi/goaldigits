@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import Header from "./components/Header";
+import LoginPage from "./app/login/page";
 
 
 export default function App() {
@@ -8,9 +9,7 @@ export default function App() {
 
     <AuthProvider>
       <Header />
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <LoginPage />
     </AuthProvider>
   )
 }
