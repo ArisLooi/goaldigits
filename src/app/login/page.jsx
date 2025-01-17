@@ -14,12 +14,14 @@ export default function LoginPage() {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
+        console.log("Current user", currentUser)
         if (currentUser) navigate("/budgets");
     }, [currentUser, navigate]);
 
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
         try {
             await signInWithEmailAndPassword(auth, email, password);
             setError(""); // Clear any previous error
