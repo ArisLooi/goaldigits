@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthProvider'
+import { toast } from 'react-toastify';
 
 export default function TransactionsPage() {
     const [amount, setAmount] = useState('');

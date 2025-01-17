@@ -1,11 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthProvider from "./context/AuthProvider"
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import LoginPage from "./app/login/page";
 import BudgetsPage from "./app/budgets/page";
 import TransactionsPage from "./app/transactions/page";
 import ErrorPage from "./app/ErrorPage"
 import RegisterPage from "./app/register/page"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
@@ -21,6 +24,8 @@ export default function App() {
           <Route path="/*" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
+      <ToastContainer />
     </AuthProvider>
   )
 }
