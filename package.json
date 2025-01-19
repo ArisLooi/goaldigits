@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.5",
     "@reduxjs/toolkit": "^2.5.0",
+    "@speechly/api": "^0.8.15",
+    "apexcharts": "^4.3.0",
     "axios": "^1.7.9",
     "firebase": "^11.1.0",
+    "google-protobuf": "^3.21.4",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
