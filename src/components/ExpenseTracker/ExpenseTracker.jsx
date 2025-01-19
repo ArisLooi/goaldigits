@@ -12,6 +12,7 @@ import {
     IconButton,
 } from '@material-tailwind/react';
 import { FaDollarSign, FaTrash } from 'react-icons/fa';
+import TransactionsForm from './TransactionsForm';
 
 const expenseTrackerTheme = {
     media: {
@@ -43,14 +44,14 @@ const ExpenseTracker = () => {
                 <CardHeader className='text-gray-900 shadow-none'>
                     <Typography variant='h4'>Expenses Tracker</Typography>
                 </CardHeader >
-                <CardBody className='p-4 text-gray-900 text-center'>
+                <CardBody className='p-1 text-gray-900 text-center'>
                     <Typography align='center' variant='h5'>Total Balance RM100</Typography>
-                    <Typography variant='subtitle1' style={{ lineHeight: '1.5em', marginTop: '20px' }}>
+                    <Typography variant='paragraph' style={{ lineHeight: '1.5em', marginTop: '20px' }}>
                         Try saying: Add income for $100 in Category Salary for Monday ...
                     </Typography>
                     <br />
                     <hr className="my-5 border-t border-gray-300" />
-                    {/* Form */}
+                    <TransactionsForm />
                 </CardBody>
                 <CardBody className="group rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
                     <List>

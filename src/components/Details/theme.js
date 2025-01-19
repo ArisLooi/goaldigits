@@ -1,8 +1,8 @@
 const incomeTheme = {
     card: {
-        root: "text-green-800",
+        root: "text-green-800 bg-none",
         header: "text-green-800 shadow-none",
-        body: "p-4 text-center",
+        body: "p-1 text-center",
     },
     chartConfig: {
         type: "pie",
@@ -32,9 +32,9 @@ const incomeTheme = {
 
 const expenseTheme = {
     card: {
-        root: "text-red-800",
+        root: "text-red-800 bg-none",
         header: "text-red-700 shadow-none",
-        body: "p-4 text-center",
+        body: "p-1 text-center",
     },
     chartConfig: {
         type: "pie",
