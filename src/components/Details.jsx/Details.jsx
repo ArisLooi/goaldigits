@@ -20,7 +20,7 @@ const Details = ({ title }) => {
                     <Typography variant='h4'>{title}</Typography>
                 </CardHeader>
                 <CardBody className={theme.card.body}>
-                    <Typography variant='h5'>RM50</Typography>
+                    <Typography variant='h5'>Total: RM50</Typography>
                     <Chart {...chartConfig} />
                 </CardBody>
             </Card>
