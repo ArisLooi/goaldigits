@@ -10,10 +10,10 @@ export default function BudgetsPage() {
             <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-3 ">
 
                 {/* Expense Tracker */}
-                <div className="relative lg:order-2 lg:row-span-2 min-h-[80rem]">
+                <div className="relative lg:order-2 lg:row-span-2 min-h-[70rem] ">
                     <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
                     <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
-                        <div className="absolute inset-x-10 bottom-0 top-10">
+                        <div className="absolute inset-x-10 bottom-0 top-10 ">
                             <ExpenseTracker />
                         </div>
                     </div>

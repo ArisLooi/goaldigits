@@ -66,9 +66,8 @@ const TransactionsForm = () => {
 
     return (
 
-        <div className="bg-background p-8 rounded-lg w-full md:w-1/2 lg:w-1/3 ">
+        <div className="bg-background p-1 rounded-lg w-full ">
             <form onSubmit={handleSubmit}>
-
                 {/* Transaction type */}
                 <div className="flex flex-col mb-4">
                     <label htmlFor="type" className=" font-semibold mb-2">Type</label>
@@ -76,10 +75,10 @@ const TransactionsForm = () => {
                         id="type"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900 "
                     >
-                        <option value="income">Income</option>
-                        <option value="expense">Expense</option>
+                        <option value="income" className='text-sm'>Income</option>
+                        <option value="expense" className='text-sm'>Expense</option>
                     </select>
                 </div>
 
@@ -155,7 +154,7 @@ const TransactionsForm = () => {
 
                 <button
                     type="submit"
-                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none"
+                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none w-full"
                 >
                     Add Transaction
                 </button>

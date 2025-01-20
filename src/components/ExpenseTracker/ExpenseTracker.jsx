@@ -4,15 +4,11 @@ import {
     CardHeader,
     CardBody,
     Typography,
-    ThemeProvider,
-    List,
-    ListItem,
-    ListItemPrefix,
-    ListItemSuffix,
-    IconButton,
+    ThemeProvider
 } from '@material-tailwind/react';
-import { FaDollarSign, FaTrash } from 'react-icons/fa';
+
 import TransactionsForm from './TransactionsForm';
+import TransactionsList from './TransactionsList';
 
 const expenseTrackerTheme = {
     media: {
@@ -53,30 +49,11 @@ const ExpenseTracker = () => {
                     <hr className="my-5 border-t border-gray-300" />
                     <TransactionsForm />
                 </CardBody>
-                <CardBody className="group rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
-                    <List>
-                        <ListItem>
-                            <ListItemPrefix>
-                                <IconButton className='rounded-full bg-green-500 flex items-center justify-center'>
-                                    <FaDollarSign className='text-white' />
-                                </IconButton>
-                            </ListItemPrefix>
-                            <div className="ml-4">
-                                <Typography variant="h6" color="blue-gray">
-                                    Salary
-                                </Typography>
-                                <Typography variant="small" color="gray" className="font-normal">
-                                    $500 - 2025-01-16
-                                </Typography>
-                            </div>
-                            <ListItemSuffix>
-                                <IconButton variant="text" color="blue-gray">
-                                    <FaTrash />
-                                </IconButton>
-                            </ListItemSuffix>
-                        </ListItem>
-                    </List>
+
+                <CardBody className="group rounded-none py-1.5 px-3 text-sm font-normal mt-5 h-40 overflow-y-scroll " >
+                    <TransactionsList />
                 </CardBody>
+
             </Card >
         </ThemeProvider >
     );
