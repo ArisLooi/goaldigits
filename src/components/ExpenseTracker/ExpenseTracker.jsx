@@ -44,13 +44,13 @@ const ExpenseTracker = () => {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        // console.log("Current User", currentUser)
+        // console.log("Current User in ExpenseTracker", currentUser)
         if (currentUser) {
             dispatch(fetchTransactionsByUser(currentUser.uid));
         }
     }, [dispatch, currentUser]);
 
-    console.log("Transactions: ", transactions);
+    // console.log("Transactions in ExpenseTracker", transactions);
 
     return (
         <ThemeProvider value={theme}>
