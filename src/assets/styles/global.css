@@ -5,6 +5,10 @@
 :root {
     --background: #f0f4f8;
     --foreground: #2d3748;
+    --income-color: #4caf50;
+    /* Green color for income */
+    --expense-color: #f44336;
+    /* Red color for expense */
 }
 
 @media (prefers-color-scheme: dark) {
