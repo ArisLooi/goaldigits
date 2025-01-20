@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-
 const TransactionsForm = () => {
     const [transactiondate, setTransactionDate] = useState('');
     const [amount, setAmount] = useState('');
@@ -15,7 +14,7 @@ const TransactionsForm = () => {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const { currentUser } = useContext(AuthContext);
-    const backendUrl = import.meta.env.VITE_BACKEND + '/transactions'
+    const backendUrl = import.meta.env.VITE_BACKEND + '/transactions';
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -29,13 +28,12 @@ const TransactionsForm = () => {
         if (currentUser) {
             let uploadedImageUrl = '';
 
-            // Upload image to Firebase storage if an image is selected 
-
+            // Upload image to Firebase storage if an image is selected
             if (image) {
                 const storageRef = ref(storage, `images/${image.name}`);
                 const snapshot = await uploadBytes(storageRef, image);
                 uploadedImageUrl = await getDownloadURL(snapshot.ref);
-                console.log("Image", image)
+                console.log("Image", image);
             }
 
             const data = {
@@ -47,15 +45,14 @@ const TransactionsForm = () => {
                 description: description,
                 type: type,
                 image_url: uploadedImageUrl,
-
-            }
+            };
 
             try {
                 await axios.post(backendUrl, data)
                     .then((response) => {
                         console.log("Success:", response.data);
                         toast.success('Transaction added successfully!');
-                    })
+                    });
             } catch (error) {
                 console.error('Error adding transaction:', error);
                 toast.error('Error adding transaction.');
@@ -63,19 +60,17 @@ const TransactionsForm = () => {
         }
     };
 
-
     return (
-
-        <div className="bg-background p-1 rounded-lg w-full ">
+        <div className="bg-background p-4 rounded-lg w-full max-w-md mx-auto sm:max-w-lg lg:max-w-xl">
             <form onSubmit={handleSubmit}>
                 {/* Transaction type */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="type" className=" font-semibold mb-2">Type</label>
+                    <label htmlFor="type" className="font-semibold mb-2">Type</label>
                     <select
                         id="type"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900 "
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                     >
                         <option value="income" className='text-sm'>Income</option>
                         <option value="expense" className='text-sm'>Expense</option>
@@ -84,7 +79,7 @@ const TransactionsForm = () => {
 
                 {/* Transaction Date */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="transactiondate" className=" font-semibold mb-2">Date</label>
+                    <label htmlFor="transactiondate" className="font-semibold mb-2">Date</label>
                     <input
                         type="date"
                         id="transactiondate"
@@ -97,7 +92,7 @@ const TransactionsForm = () => {
 
                 {/* Amount */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="amount" className=" font-semibold mb-2">Amount (MYR):</label>
+                    <label htmlFor="amount" className="font-semibold mb-2">Amount (MYR):</label>
                     <input
                         type="number"
                         id="amount"
@@ -110,7 +105,7 @@ const TransactionsForm = () => {
 
                 {/* Category */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="categoryid" className=" font-semibold mb-2">Category</label>
+                    <label htmlFor="categoryid" className="font-semibold mb-2">Category</label>
                     <input
                         type="text"
                         id="categoryid"
@@ -121,10 +116,9 @@ const TransactionsForm = () => {
                     />
                 </div>
 
-
                 {/* Account */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="accountid" className=" font-semibold mb-2">Account</label>
+                    <label htmlFor="accountid" className="font-semibold mb-2">Account</label>
                     <input
                         type="text"
                         id="accountid"
@@ -137,20 +131,26 @@ const TransactionsForm = () => {
 
                 {/* Description */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="description" className=" font-semibold mb-2">Description</label>
+                    <label htmlFor="description" className="font-semibold mb-2">Description</label>
                     <input
                         type="text"
                         id="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none  text-gray-900"
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                     />
                 </div>
 
-                {/* Image*/}
+                {/* Image */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="image" className=" font-semibold mb-2">Image</label>
-                    <input type="file" id="image" onChange={handleImageChange} className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900" /> </div>
+                    <label htmlFor="image" className="font-semibold mb-2">Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        onChange={handleImageChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                    />
+                </div>
 
                 <button
                     type="submit"

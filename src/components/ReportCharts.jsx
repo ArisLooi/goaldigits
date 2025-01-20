@@ -12,10 +12,12 @@ const ReportCharts = ({ title }) => {
             body: "p-1 text-center",
         },
         chartConfig: {
-            type: "pie",
-            width: 280,
-            height: 280,
-            series: [44, 55, 13, 43, 22],
+            type: "donut",
+            width: "100%",
+            height: "auto",
+            series: isIncome
+                ? [44, 55, 13, 43, 22]
+                : [44, 55, 13, 43, 22],
             options: {
                 chart: { toolbar: { show: false } },
                 title: { show: false },
@@ -23,7 +25,13 @@ const ReportCharts = ({ title }) => {
                 colors: isIncome
                     ? ["#4caf50", "#66bb6a", "#81c784", "#a5d6a7", "#c8e6c9"]
                     : ["#f44336", "#e57373", "#ef9a9a", "#ffcdd2", "#ffebee"],
-                legend: { show: true, position: "bottom" },
+                legend: {
+                    show: true,
+                    position: "bottom",
+                    labels: {
+                        colors: 'var(--foreground)', useSeriesColors: false, fontSize: '25px'
+                    }
+                },
             },
         },
     };
@@ -42,5 +50,4 @@ const ReportCharts = ({ title }) => {
 };
 
 export default ReportCharts;
-
 
