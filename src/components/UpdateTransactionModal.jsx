@@ -1,22 +1,33 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import { useDispatch } from "react-redux";
 import { AuthContext } from '../context/AuthProvider';
+import { updateTransaction, deleteTransaction } from "../features/transactions/transactionsSlice";
 import { toast } from 'react-toastify';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import axios from 'axios';
 import { FaImage } from 'react-icons/fa';
 
-const TransactionsForm = () => {
-    const [transactiondate, setTransactionDate] = useState('');
-    const [amount, setAmount] = useState('');
-    const [type, setType] = useState('income');
-    const [categoryid, setCategoryId] = useState('');
-    const [accountid, setAccountId] = useState('');
-    const [description, setDescription] = useState('');
+const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransactions }) => {
+    const [formData, setFormData] = useState({
+        accountid: transaction.accountid,
+        categoryid: transaction.categoryid,
+        amount: transaction.amount,
+        transactiondate: transaction.transactiondate,
+        description: transaction.description,
+        type: transaction.type,
+        image_url: transaction.image_url
+    });
     const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState('');
+    const [imagePreview, setImagePreview] = useState(transaction.image_url);
+    const dispatch = useDispatch();
     const { currentUser } = useContext(AuthContext);
-    const backendUrl = import.meta.env.VITE_BACKEND + '/transactions';
+    const backendUrl = `${import.meta.env.VITE_BACKEND}/transactions/${transaction.transactionid}`;
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -29,158 +40,165 @@ const TransactionsForm = () => {
         e.preventDefault();
 
         if (currentUser) {
-            let uploadedImageUrl = '';
+            let uploadedImageUrl = formData.image_url;
 
             // Upload image to Firebase storage if an image is selected
             if (image) {
                 const storageRef = ref(storage, `images/${image.name}`);
                 const snapshot = await uploadBytes(storageRef, image);
                 uploadedImageUrl = await getDownloadURL(snapshot.ref);
-                console.log("Image", image);
             }
 
             const data = {
+
                 uid: currentUser.uid,
-                accountid: accountid,
-                categoryid: categoryid,
-                amount: amount,
-                transactiondate: transactiondate,
-                description: description,
-                type: type,
+                accountid: formData.accountid,
+                categoryid: formData.categoryid,
+                amount: formData.amount,
+                transactiondate: formData.transactiondate,
+                description: formData.description,
+                type: formData.type,
                 image_url: uploadedImageUrl,
             };
 
             try {
-                await axios.post(backendUrl, data)
+                await axios.put(backendUrl, data)
                     .then((response) => {
-                        console.log("Success:", response.data);
-                        toast.success('Transaction added successfully!');
-
-                        // Reset state to null after successful submission
-                        setTransactionDate('');
-                        setAmount('');
-                        setType('income');
-                        setCategoryId('');
-                        setAccountId('');
-                        setDescription('');
-                        setImage(null);
-                        setImagePreview('');
+                        console.log("Data updated", response)
+                        toast.success('Transaction updated successfully!');
+                        refreshTransactions();
+                        onClose();
                     });
+
+
             } catch (error) {
-                console.error('Error adding transaction:', error);
-                toast.error('Error adding transaction.');
+                console.error('Error updating transaction:', error);
+                toast.error('Failed to update transaction.');
             }
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            const response = await dispatch(deleteTransaction({
+                transactionid: transaction.transactionid
+            })).unwrap();
+            if (response === transaction.transactionid) {
+                toast.success("Transaction successfully deleted");
+                refreshTransactions();
+                onClose();
+            } else {
+                toast.error("Failed to delete transaction");
+            }
+        } catch (error) {
+            console.error('Error deleting transaction:', error);
+            toast.error('An error occurred while trying to delete the transaction.');
+        }
+    };
+
+    if (!isOpen) return null;
+
     return (
-        <div className="bg-background p-4 rounded-lg w-full max-w-md mx-auto sm:max-w-lg lg:max-w-xl">
-            <form onSubmit={handleSubmit}>
-                {/* Transaction type */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="type" className="font-semibold mb-2">Type</label>
-                    <select
-                        id="type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                    >
-                        <option value="income" className='text-sm'>Income</option>
-                        <option value="expense" className='text-sm'>Expense</option>
-                    </select>
-                </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95">
+            <div className="bg-foreground rounded-lg shadow-lg w-full max-w-md p-6">
+                <h2 className="text-xl font-semibold mb-4">Update Transaction</h2>
+                <form onSubmit={handleSubmit}>
+                    {/* Transaction Date */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="transactiondate" className="font-semibold mb-2">Date</label>
+                        <input
+                            type="date"
+                            id="transactiondate"
+                            name="transactiondate"
+                            value={formData.transactiondate}
+                            onChange={handleInputChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                            required
+                        />
+                    </div>
 
-                {/* Transaction Date */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="transactiondate" className="font-semibold mb-2">Date</label>
-                    <input
-                        type="date"
-                        id="transactiondate"
-                        value={transactiondate}
-                        onChange={(e) => setTransactionDate(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                        required
-                    />
-                </div>
+                    {/* Amount */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="amount" className="font-semibold mb-2">Amount (MYR)</label>
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            value={formData.amount}
+                            onChange={handleInputChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                            required
+                        />
+                    </div>
 
-                {/* Amount */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="amount" className="font-semibold mb-2">Amount (MYR):</label>
-                    <input
-                        type="number"
-                        id="amount"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                        required
-                    />
-                </div>
+                    {/* Category */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="categoryid" className="font-semibold mb-2">Category</label>
+                        <input
+                            type="text"
+                            id="categoryid"
+                            name="categoryid"
+                            value={formData.categoryid}
+                            onChange={handleInputChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                            required
+                        />
+                    </div>
 
-                {/* Category */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="categoryid" className="font-semibold mb-2">Category</label>
-                    <input
-                        type="text"
-                        id="categoryid"
-                        value={categoryid}
-                        onChange={(e) => setCategoryId(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                        required
-                    />
-                </div>
+                    {/* Account */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="accountid" className="font-semibold mb-2">Account</label>
+                        <input
+                            type="text"
+                            id="accountid"
+                            name="accountid"
+                            value={formData.accountid}
+                            onChange={handleInputChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                            required
+                        />
+                    </div>
 
-                {/* Account */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="accountid" className="font-semibold mb-2">Account</label>
-                    <input
-                        type="text"
-                        id="accountid"
-                        value={accountid}
-                        onChange={(e) => setAccountId(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                        required
-                    />
-                </div>
+                    {/* Description */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="description" className="font-semibold mb-2">Description</label>
+                        <input
+                            type="text"
+                            id="description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                        />
+                    </div>
 
-                {/* Description */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="description" className="font-semibold mb-2">Description</label>
-                    <input
-                        type="text"
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                    />
-                </div>
+                    {/* Image */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="image" className="font-semibold mb-2">Image</label>
+                        <input
+                            type="file"
+                            id="image"
+                            onChange={handleImageChange}
+                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                        />
+                        {imagePreview ? (
+                            <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-100 overflow-auto" />
+                        ) : (
+                            <div className="flex items-center justify-center mt-2 text-gray-600">
+                                <FaImage className="text-3xl mr-2" />
+                                <span>No image available</span> </div>
+                        )}
+                    </div>
 
-                {/* Image */}
-                <div className="flex flex-col mb-4">
-                    <label htmlFor="image" className="font-semibold mb-2">Image</label>
-                    <input
-                        type="file"
-                        id="image"
-                        onChange={handleImageChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                    />
-                    {imagePreview ? (
-                        <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-60" />
-                    ) : (
-                        <div className="flex items-center justify-center mt-2 text-gray-600">
-                            <FaImage className="text-3xl mr-2" />
-                            <span>Upload invoice or receipt</span> </div>
-                    )}
-                </div>
-
-                <button
-                    type="submit"
-                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none w-full"
-                >
-                    Add Transaction
-                </button>
-            </form>
+                    <div className="flex justify-center mt-5">
+                        <button type="button" className="mr-2 bg-gray-300 text-gray-700 px-4 py-2 rounded-md" onClick={onClose}>Cancel</button>
+                        <button type="submit" className="mr-2 bg-blue-500 text-white px-4 py-2 rounded-md">Update</button>
+                        <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={handleDelete}>Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
-}
+};
 
-export default TransactionsForm;
+export default UpdateTransactionModal;

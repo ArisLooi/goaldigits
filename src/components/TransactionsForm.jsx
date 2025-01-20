@@ -164,7 +164,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                     />
                     {imagePreview ? (
-                        <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-70 overflow-scroll" />
+                        <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-70 overflow-auto" />
                     ) : (
                         <div className="flex items-center justify-center mt-2 text-gray-600">
                             <FaImage className="text-3xl/>
