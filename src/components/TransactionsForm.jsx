@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthProvider'
+import { AuthContext } from '../context/AuthProvider';
 import { toast } from 'react-toastify';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { FaImage } from 'react-icons/fa';
 
-const TransactionsForm = () => {
+const TransactionsForm = ({ refreshTransactions }) => {
     const [transactiondate, setTransactionDate] = useState('');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState('income');
@@ -13,12 +14,14 @@ const TransactionsForm = () => {
     const [accountid, setAccountId] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
     const { currentUser } = useContext(AuthContext);
     const backendUrl = import.meta.env.VITE_BACKEND + '/transactions';
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
             setImage(e.target.files[0]);
+            setImagePreview(URL.createObjectURL(e.target.files[0]));
         }
     };
 
@@ -52,6 +55,16 @@ const TransactionsForm = () => {
                     .then((response) => {
                         console.log("Success:", response.data);
                         toast.success('Transaction added successfully!');
+                        refreshTransactions();
+                        // Reset state to null after successful submission
+                        setTransactionDate('');
+                        setAmount('');
+                        setType('income');
+                        setCategoryId('');
+                        setAccountId('');
+                        setDescription('');
+                        setImage(null);
+                        setImagePreview('');
                     });
             } catch (error) {
                 console.error('Error adding transaction:', error);
@@ -150,6 +163,14 @@ const TransactionsForm = () => {
                         onChange={handleImageChange}
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                     />
+                    {imagePreview ? (
+                        <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-70 overflow-scroll" />
+                    ) : (
+                        <div className="flex items-center justify-center mt-2 text-gray-600">
+                            <FaImage className="text-3xl/>
+                 mr-2" />
+                            <span>Upload invoice or receipt</span> </div>
+                    )}
                 </div>
 
                 <button

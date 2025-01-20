@@ -24,3 +24,9 @@ body {
     background: var(--background);
     font-family: 'Poppins', sans-serif;
 }
+
+.modal-background {
+    background-color: var(--background);
+    opacity: 0.98;
+    /* Adjust opacity as necessary */
+}

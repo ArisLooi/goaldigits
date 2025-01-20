@@ -1,12 +1,4 @@
-import React, { useContext, useEffect } from 'react';
-import {
-    Typography,
-    List,
-    ListItem,
-    ListItemPrefix,
-    ListItemSuffix,
-    IconButton
-} from '@material-tailwind/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaDollarSign, FaTrash, FaSpinner } from 'react-icons/fa';
 import TransactionsForm from '../components/TransactionsForm';
 import TransactionsList from '../components/TransactionsList';
@@ -26,12 +18,13 @@ const TransactionsPage = () => {
         }
     }, [dispatch, currentUser]);
 
-    const dummyData = [
-        { id: 1, category: "Salary", amount: 1000, date: "2022-12-01", type: "Income" },
-        { id: 2, category: "Rent", amount: 500, date: "2022-12-02", type: "Expense" },
-        { id: 3, category: "Grocery", amount: 150, date: "2022-12-03", type: "Expense" },
-        { id: 4, category: "Freelancing", amount: 800, date: "2022-12-04", type: "Income" },
-    ];
+    const refreshTransactions = () => {
+        if (currentUser) {
+            dispatch(fetchTransactionsByUser(currentUser.uid));
+        }
+    };
+
+    const sortedTransactions = [...transactions].sort((a, b) => new Date(b.transactiondate) - new Date(a.transactiondate));
 
     return (
         <div className="mx-auto mt-10 max-w-2xl px-6 lg:max-w-7xl lg:px-8 text-foreground">
@@ -42,42 +35,17 @@ const TransactionsPage = () => {
 
                 {/* Expense Tracker */}
                 <div className="relative lg:order-1 lg:row-span-2 w-auto text-foreground">
-                    <TransactionsForm />
+                    <TransactionsForm refreshTransactions={refreshTransactions} />
                 </div>
 
-                {/* Other column */}
-                <div className="relative lg:order-1 lg:row-span-2 py-1.5 px-3 text-sm font-normal my-5 mx-3 overflow-y-scroll">
+                {/* Transactions List */}
+                <div className="relative lg:order-1 lg:row-span-2 py-3 px-3 text-sm my-5 lg:mx-20 overflow-y-scroll">
                     {loading && (
                         <div className="flex justify-center items-center">
                             <FaSpinner className="fa-spin text-blue-500 text-3xl" />
                         </div>
                     )}
-                    <TransactionsList transactions={transactions} />
-
-                    <List className='hover-none'>
-                        {dummyData.map((item) => (
-                            <ListItem key={item.id} className='mb-3'>
-                                <ListItemPrefix>
-                                    <IconButton className={`rounded-full flex items-center justify-center ${item.type === 'Income' ? 'bg-green-500' : 'bg-red-500'}`}>
-                                        <FaDollarSign className='text-white' />
-                                    </IconButton>
-                                </ListItemPrefix>
-                                <div className="ml-4">
-                                    <Typography variant="h6">
-                                        {item.category}
-                                    </Typography>
-                                    <Typography variant="small" className="font-normal">
-                                        {item.amount} - ${item.date}
-                                    </Typography>
-                                </div>
-                                <ListItemSuffix>
-                                    <IconButton variant="text" className="rounded-full flex items-center justify-center hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
-                                        <FaTrash />
-                                    </IconButton>
-                                </ListItemSuffix>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <TransactionsList transactions={sortedTransactions} refreshTransactions={refreshTransactions} />
                 </div>
             </div>
         </div>
