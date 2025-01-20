@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { AuthContext } from '../../context/AuthProvider';
+import { AuthContext } from '../context/AuthProvider';
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {

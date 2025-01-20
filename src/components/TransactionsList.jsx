@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FaDollarSign, FaTrash } from 'react-icons/fa';
-import { deleteTransaction } from '../../features/transactions/transactionsSlice';
+import { deleteTransaction } from '../features/transactions/transactionsSlice';
 import {
     Typography,
     List,

@@ -11,8 +11,8 @@ import TransactionsForm from './TransactionsForm';
 import TransactionsList from './TransactionsList';
 import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTransactionsByUser } from "../../features/transactions/transactionsSlice";
-import { AuthContext } from "../../context/AuthProvider";
+import { fetchTransactionsByUser } from "../features/transactions/transactionsSlice";
+import { AuthContext } from "../context/AuthProvider";
 
 
 const expenseTrackerTheme = {
@@ -54,8 +54,8 @@ const ExpenseTracker = () => {
 
     return (
         <ThemeProvider value={theme}>
-            <Card className='text-gray-900'>
-                <CardHeader className='text-gray-900 shadow-none'>
+            <Card className='text-foreground bg-transparent'>
+                <CardHeader className='shadow-none bg-transparent'>
                     <Typography variant='h4'>Expenses Tracker</Typography>
                 </CardHeader >
                 <CardBody className='p-1 text-gray-900 text-center'>

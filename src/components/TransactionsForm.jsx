@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../context/AuthProvider'
+import { AuthContext } from '../context/AuthProvider'
 import { toast } from 'react-toastify';
-import { storage } from '../../config/firebase';
+import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
-export default function TransactionsPage() {
+const TransactionsForm = () => {
     const [transactiondate, setTransactionDate] = useState('');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState('income');
@@ -65,27 +65,26 @@ export default function TransactionsPage() {
 
 
     return (
-        <div className="bg-background p-8 rounded-lg w-full md:w-1/2 lg:w-1/3 ">
-            <h1 className="text-3xl font-bold text-center mb-8">Transaction Form</h1>
-            <form onSubmit={handleSubmit}>
 
+        <div className="bg-background p-1 rounded-lg w-full ">
+            <form onSubmit={handleSubmit}>
                 {/* Transaction type */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="type" className="text-lg font-semibold mb-2">Transaction Type:</label>
+                    <label htmlFor="type" className=" font-semibold mb-2">Type</label>
                     <select
                         id="type"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900 "
                     >
-                        <option value="income">Income</option>
-                        <option value="expense">Expense</option>
+                        <option value="income" className='text-sm'>Income</option>
+                        <option value="expense" className='text-sm'>Expense</option>
                     </select>
                 </div>
 
                 {/* Transaction Date */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="transactiondate" className="text-lg font-semibold mb-2">Transaction Date</label>
+                    <label htmlFor="transactiondate" className=" font-semibold mb-2">Date</label>
                     <input
                         type="date"
                         id="transactiondate"
@@ -98,7 +97,7 @@ export default function TransactionsPage() {
 
                 {/* Amount */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="amount" className="text-lg font-semibold mb-2">Amount (MYR):</label>
+                    <label htmlFor="amount" className=" font-semibold mb-2">Amount (MYR):</label>
                     <input
                         type="number"
                         id="amount"
@@ -111,7 +110,7 @@ export default function TransactionsPage() {
 
                 {/* Category */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="categoryid" className="text-lg font-semibold mb-2">Category:</label>
+                    <label htmlFor="categoryid" className=" font-semibold mb-2">Category</label>
                     <input
                         type="text"
                         id="categoryid"
@@ -125,7 +124,7 @@ export default function TransactionsPage() {
 
                 {/* Account */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="accountid" className="text-lg font-semibold mb-2">Account:</label>
+                    <label htmlFor="accountid" className=" font-semibold mb-2">Account</label>
                     <input
                         type="text"
                         id="accountid"
@@ -138,7 +137,7 @@ export default function TransactionsPage() {
 
                 {/* Description */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="description" className="text-lg font-semibold mb-2">Description:</label>
+                    <label htmlFor="description" className=" font-semibold mb-2">Description</label>
                     <input
                         type="text"
                         id="description"
@@ -150,12 +149,12 @@ export default function TransactionsPage() {
 
                 {/* Image*/}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="image" className="text-lg font-semibold mb-2">Image:</label>
+                    <label htmlFor="image" className=" font-semibold mb-2">Image</label>
                     <input type="file" id="image" onChange={handleImageChange} className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900" /> </div>
 
                 <button
                     type="submit"
-                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none"
+                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none w-full"
                 >
                     Add Transaction
                 </button>
@@ -164,3 +163,4 @@ export default function TransactionsPage() {
     );
 }
 
+export default TransactionsForm;
