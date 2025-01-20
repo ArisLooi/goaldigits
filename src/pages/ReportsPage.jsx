@@ -1,6 +1,5 @@
 import React from 'react';
 import ReportCharts from '../components/ReportCharts';
-import ExpenseTracker from '../components/ExpenseTracker';
 
 export default function BudgetsPage() {
     return (
