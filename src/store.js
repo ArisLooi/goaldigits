@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import transactionsReducer from './features/transactions/transactionsSlice';
+import transactionsReducer from '../src/features/transactions/transactionsSlice';
 
 export default configureStore({
     reducer: {

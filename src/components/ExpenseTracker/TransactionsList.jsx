@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react';
 import { FaDollarSign, FaTrash } from 'react-icons/fa';
 import {
     Typography,
@@ -9,37 +9,25 @@ import {
     IconButton,
 } from '@material-tailwind/react';
 
-const TransactionsList = () => {
-    const transactions = [
-        { id: 1, type: 'income', category: 'Salary', amount: 500, date: '2025-01-16', },
-        { id: 2, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 3, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 4, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 5, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 6, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 7, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 8, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 9, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 10, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-        { id: 11, type: 'expense', category: 'Food', amount: 50, date: '2025-01-16', },
-    ]
-    // const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
-    return (
-        < List className='hover-none '>
-            {transactions.map((transaction) => (
+export default function TransactionsList({ transactions }) {
 
-                <ListItem key={transaction.id}>
+    console.log("Transactions in TransactionsList: ", transactions);
+
+    return (
+        <List className='hover-none'>
+            {transactions.map((transaction) => (
+                <ListItem key={transaction.transactionid}>
                     <ListItemPrefix>
                         <IconButton className={`rounded-full flex items-center justify-center ${transaction.type === 'income' ? 'bg-green-500' : 'bg-red-500'}`}>
                             <FaDollarSign className='text-white' />
                         </IconButton>
                     </ListItemPrefix>
                     <div className="ml-4">
-                        <Typography variant="h6" >
-                            {transaction.category}
+                        <Typography variant="h6">
+                            {transaction.categoryid}
                         </Typography>
                         <Typography variant="small" className="font-normal">
-                            {`$${transaction.amount} - ${transaction.date}`}
+                            {transaction.amount} - ${transaction.transactiondate}
                         </Typography>
                     </div>
                     <ListItemSuffix>
@@ -47,15 +35,8 @@ const TransactionsList = () => {
                             <FaTrash />
                         </IconButton>
                     </ListItemSuffix>
-
                 </ListItem>
-
-            ))
-
-            }
-
-        </List >
-    )
+            ))}
+        </List>
+    );
 }
-
-export default TransactionsList;

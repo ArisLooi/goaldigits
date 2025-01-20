@@ -6,9 +6,14 @@ import {
     Typography,
     ThemeProvider
 } from '@material-tailwind/react';
-
+import { FaSpinner } from 'react-icons/fa';
 import TransactionsForm from './TransactionsForm';
 import TransactionsList from './TransactionsList';
+import { useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTransactionsByUser } from "../../features/transactions/transactionsSlice";
+import { AuthContext } from "../../context/AuthProvider";
+
 
 const expenseTrackerTheme = {
     media: {
@@ -33,6 +38,19 @@ const expenseTrackerTheme = {
 
 const ExpenseTracker = () => {
     const theme = expenseTrackerTheme;
+    const dispatch = useDispatch();
+    const transactions = useSelector(store => store.transactions.transactions)
+    const loading = useSelector(store => store.transactions.loading)
+    const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        // console.log("Current User", currentUser)
+        if (currentUser) {
+            dispatch(fetchTransactionsByUser(currentUser.uid));
+        }
+    }, [dispatch, currentUser]);
+
+    console.log("Transactions: ", transactions);
 
     return (
         <ThemeProvider value={theme}>
@@ -51,7 +69,12 @@ const ExpenseTracker = () => {
                 </CardBody>
 
                 <CardBody className="group rounded-none py-1.5 px-3 text-sm font-normal mt-5 h-40 overflow-y-scroll " >
-                    <TransactionsList />
+                    {loading && (
+                        <FaSpinner animation="border" className="ms-3 mt-3 align-center justify-center" variant="primary" />
+                    )}
+
+                    <TransactionsList transactions={transactions} />
+
                 </CardBody>
 
             </Card >
