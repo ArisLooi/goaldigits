@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FaDollarSign, FaTrash } from 'react-icons/fa';
-import { deleteTransactions } from '../../features/transactions/transactionsSlice';
+import { deleteTransaction } from '../../features/transactions/transactionsSlice';
 import {
     Typography,
     List,
@@ -18,7 +18,7 @@ export default function TransactionsList({ transactions }) {
 
     const handleDelete = async (transactionid, uid) => {
         try {
-            const response = await dispatch(deleteTransactions({ transactionid })).unwrap();
+            const response = await dispatch(deleteTransaction({ transactionid })).unwrap();
             console.log("Delete response: ", response);
             if (response === transactionid) {
                 toast.success("Transaction successfully deleted"); // Delay fetching transactions to let the toast display 

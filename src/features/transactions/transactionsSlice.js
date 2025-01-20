@@ -5,6 +5,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND
 
 // Async thunk to create a transaction
 
+
 // Async thunk to read a user's transactions
 export const fetchTransactionsByUser = createAsyncThunk(
     "transactions/fetchByUser",
@@ -15,12 +16,36 @@ export const fetchTransactionsByUser = createAsyncThunk(
 );
 
 // Async thunk to update a transaction
+export const updateTransaction = createAsyncThunk(
+    "transactions/updateTransaction",
+    async ({ uid, transactionid, newTransaction, newFile }) => {
+        try {
+            // Upload the new file to the storage if it exists and get its URL
+            let newImageUrl;
+            if (newFile) {
+                const imageRef = ref(storage, `transactions/${newFile.name}`);
+                const response = await uploadBytes(imageRef, newFile);
+                newImageUrl = await getDownloadURL(response.ref);
+            }
 
+            const updatedData = {
+                ...newTransaction,
+                imageUrl: newImageUrl || newTransaction.imageUrl,
+            };
 
+            const response = await axios.put(`${BACKEND_URL}/transactions/${transactionid}`);
+            return response.data;
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+)
 
 // Async thunk to delete a transaction
-export const deleteTransactions = createAsyncThunk(
-    "transactions/deleteTransactions",
+export const deleteTransaction = createAsyncThunk(
+    "transactions/deleteTransaction",
     async ({ transactionid }) => {
         try {
             const response = await axios.delete(`${BACKEND_URL}/transactions/${transactionid}`);
@@ -42,10 +67,19 @@ const transactionsSlice = createSlice({
                 state.transactions = action.payload;
                 state.loading = false;
             })
-            .addCase(deleteTransactions.fulfilled, (state, action) => {
+            .addCase(deleteTransaction.fulfilled, (state, action) => {
                 const deletedtransactionid = action.payload;
                 state.transactions = state.transactions.filter((transaction) => transaction.transactionid !== deletedtransactionid);
             })
+            .addCase(updateTransaction.fulfilled, (state, action) => {
+                const updatedTransaction = action.payload;
+                const transactionIndex = state.transactions.findIndex(
+                    (transaction) => transaction.id === updatedTransaction.id);
+                if (postIndex !== -1) {
+                    state.transactions[transactionIndex] = updatedTransaction;
+                }
+            })
+
 
     }
 });
