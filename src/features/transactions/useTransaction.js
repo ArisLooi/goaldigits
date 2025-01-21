@@ -9,7 +9,7 @@ const useTransactions = (title) => {
     const rightTransactions = transactions.filter((t) => t.type === title);
 
     // Calculate the total by ensuring amounts are numbers
-    const total = rightTransactions.reduce((acc, currVal) => acc += parseFloat(currVal.amount), 0);
+    const total = rightTransactions.reduce((acc, currVal) => acc += parseFloat(currVal.amount), 0).toLocaleString();
 
     // Select categories based on title
     const categories = title === 'income' ? incomeCategories : expenseCategories;

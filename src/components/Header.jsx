@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { getAuth } from "firebase/auth";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider"
+import { FaLocationArrow, FaRocketchat, FaBell } from 'react-icons/fa';
+import ChatbotModal from '../components/ChatbotModal'
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,10 +11,12 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { currentUser } = useContext(AuthContext);
+    const [showChatbot, setShowChatbot] = useState(false);
 
-    if (!currentUser) {
-        navigate("/login");
-    }
+    const handleCloseChatbot = () => setShowChatbot(false);
+    const handleShowChatbot = () => setShowChatbot(true);
+
+    useEffect(() => { if (!currentUser) { navigate("/login"); } }, [currentUser, navigate]);
 
     const handleLogout = () => {
         auth.signOut();
@@ -31,25 +35,30 @@ const Header = () => {
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
                             <div className="shrink-0">
-                                <img className="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                                <FaLocationArrow className='text-white' />
                             </div>
+                            <h1 className='ml-3 text-lg text-white'>GoalDigits</h1>
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
-                                    <Link to="/budgets" className={getLinkClassName("/budgets")}>Budgets</Link>
-                                    <Link to="/transactions" className={getLinkClassName("/transactions")}>Transaction</Link>
-                                    <Link to="/reports" className={getLinkClassName("/reports")}>Reports</Link>
+                                    <Link to="/budgets" className={getLinkClassName("/budgets")}>Set Goals</Link>
+                                    <Link to="/transactions" className={getLinkClassName("/transactions")}>Keep Track</Link>
+                                    <Link to="/reports" className={getLinkClassName("/reports")}>See Progress</Link>
                                 </div>
                             </div>
                         </div>
 
                         <div className="hidden md:block">
                             <div className="ml-4 flex items-center md:ml-6">
-                                <button type="button" className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+
+                                <button onClick={handleShowChatbot} type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-blue-500 focus:outline-none ">
+                                    <span className="absolute -inset-1.5"></span>
+                                    <span className="sr-only">Get help</span>
+                                    <FaRocketchat />
+                                </button>
+                                <button type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <span className="absolute -inset-1.5"></span>
                                     <span className="sr-only">View notifications</span>
-                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                                    </svg>
+                                    <FaBell />
                                 </button>
 
                                 {/* Profile dropdown */}
@@ -94,9 +103,9 @@ const Header = () => {
                 {isMobileMenuOpen && (
                     <div className="md:hidden" id="mobile-menu">
                         <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                            <Link to="/budgets" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Budgets</Link>
-                            <Link to="/transactions" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Transactions</Link>
-                            <Link to="/reports" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Reports</Link>
+                            <Link to="/budgets" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Set Goals</Link>
+                            <Link to="/transactions" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Keep Track</Link>
+                            <Link to="/reports" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">See Progress</Link>
                         </div>
                         <div className="border-t border-gray-700 pb-3 pt-4">
                             <div className="flex items-center px-5">
@@ -107,12 +116,10 @@ const Header = () => {
                                     <div className="text-base font-medium text-white">Tom Cook</div>
                                     <div className="text-sm font-medium text-gray-400">tom@example.com</div>
                                 </div>
-                                <button type="button" className="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <button type="button" className="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-none focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <span className="absolute -inset-1.5"></span>
                                     <span className="sr-only">View notifications</span>
-                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                                    </svg>
+                                    <FaBell />
                                 </button>
                             </div>
                             <div className="mt-3 space-y-1 px-2">
@@ -124,6 +131,7 @@ const Header = () => {
                     </div>
                 )}
             </nav>
+            <ChatbotModal show={showChatbot} handleClose={handleCloseChatbot} />
         </div>
     );
 }
