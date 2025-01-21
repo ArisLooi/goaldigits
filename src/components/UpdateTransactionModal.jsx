@@ -7,6 +7,7 @@ import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 import { FaImage } from 'react-icons/fa';
+import { incomeCategories, expenseCategories } from '../assets/utils/categories'
 
 const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransactions }) => {
     const [formData, setFormData] = useState({
@@ -26,6 +27,11 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    // Reset category when type changes 
+    const handleTypeChange = (e) => {
+        setFormData({ ...formData, type: e.target.value, category: '' });
     };
 
     const handleImageChange = (e) => {
@@ -96,6 +102,9 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
 
     if (!isOpen) return null;
 
+    // Ensure the categories are correctly selected based on the type 
+    const selectedCategories = formData.type === 'income' ? incomeCategories : expenseCategories;
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95">
             <div className="bg-foreground rounded-lg shadow-lg w-full max-w-md p-6">
@@ -132,15 +141,9 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
                     {/* Category */}
                     <div className="flex flex-col mb-4">
                         <label htmlFor="category" className="font-semibold mb-2">Category</label>
-                        <input
-                            type="text"
-                            id="category"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleInputChange}
-                            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                            required
-                        />
+                        <select id="category" name="category" value={formData.category} onChange={handleInputChange} className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900" >
+                            {selectedCategories.map((c) => <option key={c.type} value={c.type}>{c.type}</option>)}
+                        </select>
                     </div>
 
                     {/* Account
@@ -180,7 +183,7 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
                             className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                         />
                         {imagePreview ? (
-                            <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-100 overflow-auto" />
+                            <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-50" />
                         ) : (
                             <div className="flex items-center justify-center mt-2 text-gray-600">
                                 <FaImage className="text-3xl mr-2" />

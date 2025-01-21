@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FaImage } from 'react-icons/fa';
+import { incomeCategories, expenseCategories } from '../assets/utils/categories'
 
 const TransactionsForm = ({ refreshTransactions }) => {
     const [transactiondate, setTransactionDate] = useState('');
@@ -70,6 +71,9 @@ const TransactionsForm = ({ refreshTransactions }) => {
         }
     };
 
+    // Ensure the categories are correctly selected based on the type
+    const selectedCategories = type === 'income' ? incomeCategories : expenseCategories;
+
     return (
         <div className="bg-background p-4 rounded-lg w-full max-w-md mx-auto sm:max-w-lg lg:max-w-xl">
             <form onSubmit={handleSubmit}>
@@ -80,7 +84,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                         id="type"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
+                        className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none text-gray-900"
                     >
                         <option value="income" className='text-sm'>Income</option>
                         <option value="expense" className='text-sm'>Expense</option>
@@ -116,14 +120,14 @@ const TransactionsForm = ({ refreshTransactions }) => {
                 {/* Category */}
                 <div className="flex flex-col mb-4">
                     <label htmlFor="category" className="font-semibold mb-2">Category</label>
-                    <input
-                        type="text"
+                    <select
                         id="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
-                        required
-                    />
+                    >
+                        {selectedCategories.map((c) => <option key={c.type} value={c.type}>{c.type}</option>)}
+                    </select>
                 </div>
 
                 {/* Account
