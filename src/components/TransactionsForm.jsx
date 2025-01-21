@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { AuthContext } from '../context/AuthProvider';
 import { toast } from 'react-toastify';
+import { createTransaction } from '../features/transactions/transactionsSlice'
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FaImage } from 'react-icons/fa';
@@ -16,7 +17,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const { currentUser } = useContext(AuthContext);
-    const backendUrl = import.meta.env.VITE_BACKEND + '/transactions';
+    const dispatch = useDispatch();
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -50,20 +51,17 @@ const TransactionsForm = ({ refreshTransactions }) => {
             };
 
             try {
-                await axios.post(backendUrl, data)
-                    .then((response) => {
-                        console.log("Success:", response.data);
-                        toast.success('Transaction added successfully!');
-                        refreshTransactions();
-                        // Reset state to null after successful submission
-                        setTransactionDate('');
-                        setAmount('');
-                        setType('income');
-                        setCategory('');
-                        setDescription('');
-                        setImage(null);
-                        setImagePreview('');
-                    });
+                await dispatch(createTransaction(data));
+                toast.success('Transaction added successfully!');
+                refreshTransactions();
+                // Reset state to null after successful submission
+                setTransactionDate('');
+                setAmount('');
+                setType('income');
+                setCategory('');
+                setDescription('');
+                setImage(null);
+                setImagePreview('');
             } catch (error) {
                 console.error('Error adding transaction:', error);
                 toast.error('Error adding transaction.');

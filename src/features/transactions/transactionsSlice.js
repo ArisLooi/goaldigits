@@ -4,7 +4,14 @@ import axios from 'axios'
 const BACKEND_URL = import.meta.env.VITE_BACKEND
 
 // Async thunk to create a transaction
-
+export const createTransaction = createAsyncThunk(
+    "transactions/createTransaction",
+    async ({ uid, category, amount, transactiondate, description, type, image_url }) => {
+        const data = { uid, category, amount, transactiondate, description, type, image_url };
+        const response = await axios.post(`${BACKEND_URL}/transactions`, data);
+        return response.data;
+    }
+);
 
 // Async thunk to read a user's transactions
 export const fetchTransactionsByUser = createAsyncThunk(
@@ -63,6 +70,9 @@ const transactionsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(createTransaction.fulfilled, (state, action) => {
+                state.transactions.push(action.payload);
+            })
             .addCase(fetchTransactionsByUser.pending, (state) => {
                 state.loading = true;
             })
