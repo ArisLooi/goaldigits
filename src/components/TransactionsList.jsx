@@ -48,7 +48,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
         <>
             <List className='hover-none'>
                 {transactions.map((transaction) => {
-                    const { amount, transactiondate, type, categoryid, transactionid, uid } = transaction;
+                    const { amount, transactiondate, type, category, transactionid, uid } = transaction;
 
                     return (
                         <ListItem key={transactionid} className='mb-3'>
@@ -59,7 +59,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
                             </ListItemPrefix>
                             <div className="ml-4">
                                 <Typography variant="h6">
-                                    {categoryid || 'No Category'}
+                                    {category || 'No Category'}
                                 </Typography>
                                 <Typography variant="small" className="font-normal">
                                     {amount} - {transactiondate || 'No Date'}

@@ -10,8 +10,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
     const [transactiondate, setTransactionDate] = useState('');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState('income');
-    const [categoryid, setCategoryId] = useState('');
-    const [accountid, setAccountId] = useState('');
+    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
@@ -41,8 +40,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
             const data = {
                 uid: currentUser.uid,
-                accountid: accountid,
-                categoryid: categoryid,
+                category: category,
                 amount: amount,
                 transactiondate: transactiondate,
                 description: description,
@@ -60,8 +58,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                         setTransactionDate('');
                         setAmount('');
                         setType('income');
-                        setCategoryId('');
-                        setAccountId('');
+                        setCategory('');
                         setDescription('');
                         setImage(null);
                         setImagePreview('');
@@ -118,29 +115,29 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
                 {/* Category */}
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="categoryid" className="font-semibold mb-2">Category</label>
+                    <label htmlFor="category" className="font-semibold mb-2">Category</label>
                     <input
                         type="text"
-                        id="categoryid"
-                        value={categoryid}
-                        onChange={(e) => setCategoryId(e.target.value)}
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                         required
                     />
                 </div>
 
-                {/* Account */}
+                {/* Account
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="accountid" className="font-semibold mb-2">Account</label>
+                    <label htmlFor="account" className="font-semibold mb-2">Account</label>
                     <input
                         type="text"
-                        id="accountid"
-                        value={accountid}
-                        onChange={(e) => setAccountId(e.target.value)}
+                        id="account"
+                        value={account}
+                        onChange={(e) => setAccount(e.target.value)}
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                         required
                     />
-                </div>
+                </div> */}
 
                 {/* Description */}
                 <div className="flex flex-col mb-4">

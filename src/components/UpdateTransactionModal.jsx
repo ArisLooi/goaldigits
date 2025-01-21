@@ -10,8 +10,7 @@ import { FaImage } from 'react-icons/fa';
 
 const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransactions }) => {
     const [formData, setFormData] = useState({
-        accountid: transaction.accountid,
-        categoryid: transaction.categoryid,
+        category: transaction.category,
         amount: transaction.amount,
         transactiondate: transaction.transactiondate,
         description: transaction.description,
@@ -52,8 +51,7 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
             const data = {
 
                 uid: currentUser.uid,
-                accountid: formData.accountid,
-                categoryid: formData.categoryid,
+                category: formData.category,
                 amount: formData.amount,
                 transactiondate: formData.transactiondate,
                 description: formData.description,
@@ -133,31 +131,31 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
 
                     {/* Category */}
                     <div className="flex flex-col mb-4">
-                        <label htmlFor="categoryid" className="font-semibold mb-2">Category</label>
+                        <label htmlFor="category" className="font-semibold mb-2">Category</label>
                         <input
                             type="text"
-                            id="categoryid"
-                            name="categoryid"
-                            value={formData.categoryid}
+                            id="category"
+                            name="category"
+                            value={formData.category}
                             onChange={handleInputChange}
                             className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                             required
                         />
                     </div>
 
-                    {/* Account */}
+                    {/* Account
                     <div className="flex flex-col mb-4">
-                        <label htmlFor="accountid" className="font-semibold mb-2">Account</label>
+                        <label htmlFor="account" className="font-semibold mb-2">Account</label>
                         <input
                             type="text"
-                            id="accountid"
-                            name="accountid"
-                            value={formData.accountid}
+                            id="account"
+                            name="account"
+                            value={formData.account}
                             onChange={handleInputChange}
                             className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                             required
                         />
-                    </div>
+                    </div> */}
 
                     {/* Description */}
                     <div className="flex flex-col mb-4">
