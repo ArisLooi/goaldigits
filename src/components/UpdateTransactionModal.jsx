@@ -22,7 +22,6 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
     const [imagePreview, setImagePreview] = useState(transaction.image_url);
     const dispatch = useDispatch();
     const { currentUser } = useContext(AuthContext);
-    const backendUrl = `${import.meta.env.VITE_BACKEND}/transactions/${transaction.transactionid}`;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -66,15 +65,21 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
             };
 
             try {
-                await axios.put(backendUrl, data)
-                    .then((response) => {
-                        console.log("Data updated", response)
-                        toast.success('Transaction updated successfully!');
-                        refreshTransactions();
-                        onClose();
-                    });
+                const response = await dispatch(updateTransaction({
+                    transactionid: transaction.transactionid,
+                    newTransaction: data,
+                    newFile: image
+                })).unwrap();
 
+                console.log("Update Response", response);
 
+                if (response.data && response.data.transactionid) {
+                    toast.success('Transaction updated successfully!');
+                    refreshTransactions(); onClose();
+                } else {
+                    console.error('Update failed: Invalid response structure', response);
+                    toast.error('Failed to update transaction.');
+                }
             } catch (error) {
                 console.error('Error updating transaction:', error);
                 toast.error('Failed to update transaction.');
@@ -106,10 +111,19 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
     const selectedCategories = formData.type === 'income' ? incomeCategories : expenseCategories;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95">
-            <div className="bg-foreground rounded-lg shadow-lg w-full max-w-md p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 overflow-auto">
+            <div className="rounded-lg shadow-lg w-full max-w-md p-6 max-h-full mb-5">
                 <h2 className="text-xl font-semibold mb-4">Update Transaction</h2>
                 <form onSubmit={handleSubmit}>
+
+                    {/* Type */}
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="type" className="font-semibold mb-2">Type</label>
+                        <select id="type" name="type" value={formData.type} onChange={handleTypeChange} className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none text-gray-900" >
+                            <option value="income" className='text-sm'>Income</option>
+                            <option value="expense" className='text-sm'>Expense</option>
+                        </select>
+                    </div>
                     {/* Transaction Date */}
                     <div className="flex flex-col mb-4">
                         <label htmlFor="transactiondate" className="font-semibold mb-2">Date</label>
@@ -123,6 +137,8 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
                             required
                         />
                     </div>
+
+                    {/* Type */}
 
                     {/* Amount */}
                     <div className="flex flex-col mb-4">

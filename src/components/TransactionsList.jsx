@@ -49,28 +49,29 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
             <List className='hover-none'>
                 {transactions.map((transaction) => {
                     const { amount, transactiondate, type, category, transactionid, uid } = transaction;
+                    // console.log('Rendering transaction:', transaction);
 
                     return (
                         <ListItem key={transactionid} className='mb-3'>
                             <ListItemPrefix>
-                                <IconButton className={`rounded-full flex items-center justify-center ${type === 'income' ? 'bg-green-500' : 'bg-red-500'}`}>
+                                <IconButton key={`icon-${transactionid}`} className={`rounded-full flex items-center justify-center ${type === 'income' ? 'bg-green-500' : 'bg-red-500'}`}>
                                     <FaDollarSign className='text-white' />
                                 </IconButton>
                             </ListItemPrefix>
                             <div className="ml-4">
-                                <Typography variant="h6">
+                                <Typography key={`category-${transactionid}`} variant="h6">
                                     {category || 'No Category'}
                                 </Typography>
-                                <Typography variant="small" className="font-normal">
+                                <Typography key={`amount-${transactionid}`} variant="small" className="font-normal">
                                     {amount} - {transactiondate || 'No Date'}
                                 </Typography>
                             </div>
                             <ListItemSuffix>
                                 <div className="flex space-x-2">
-                                    <IconButton onClick={() => handleUpdate(transaction)} variant="text" className="align-right rounded-full flex items-center justify-center text-foreground hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
+                                    <IconButton key={`edit-${transactionid}`} onClick={() => handleUpdate(transaction)} variant="text" className="align-right rounded-full flex items-center justify-center text-foreground hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
                                         <FaRegEdit />
                                     </IconButton>
-                                    <IconButton onClick={() => handleDelete(transactionid, uid)} variant="text" className="rounded-full flex items-center justify-center text-foreground hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
+                                    <IconButton key={`delete-${transactionid}`} onClick={() => handleDelete(transactionid, uid)} variant="text" className="rounded-full flex items-center justify-center text-foreground hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
                                         <FaTrash />
                                     </IconButton>
                                 </div>
@@ -81,6 +82,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
             </List>
             {currentTransaction && (
                 <UpdateTransactionModal
+                    key={`modal-${currentTransaction.transactionid}`}
                     isOpen={isModalOpen}
                     onClose={handleCloseModal}
                     transaction={currentTransaction}

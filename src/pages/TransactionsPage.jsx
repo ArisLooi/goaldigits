@@ -31,7 +31,7 @@ const TransactionsPage = () => {
             <h2 className="text-center text-base font-semibold text-indigo-600">Budget smarter, live freer.</h2>
             <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">Expenses Tracker</p>
             <p className="text-center text-base mt-5">Try saying: Add income for $100 in Category Salary for Monday ...</p>
-            <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-2 lg:grid-rows-1">
+            <div className="mt-10 grid gap-1 sm:mt-16 lg:grid-cols-2 lg:grid-rows-1">
 
                 {/* Expense Tracker */}
                 <div className="bg-background p-4 rounded-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-autotext-foreground">
@@ -39,7 +39,7 @@ const TransactionsPage = () => {
                 </div>
 
                 {/* Transactions List */}
-                <div className="relative lg:order-1 lg:row-span-2 py-3 px-3 text-sm my-5 lg:mx-20 overflow-y-auto">
+                <div className="relative lg:order-1 lg:row-span-2 py-3 px-1 text-sm my-5 lg:mx-20 overflow-y-auto">
                     {loading && (
                         <div className="flex justify-center items-center">
                             <FaSpinner className="fa-spin text-blue-500 text-3xl" />

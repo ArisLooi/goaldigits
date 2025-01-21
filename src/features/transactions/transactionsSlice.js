@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { storage } from '../../config/firebase';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND
 
@@ -25,7 +27,7 @@ export const fetchTransactionsByUser = createAsyncThunk(
 // Async thunk to update a transaction
 export const updateTransaction = createAsyncThunk(
     "transactions/updateTransaction",
-    async ({ uid, transactionid, newTransaction, newFile }) => {
+    async ({ transactionid, newTransaction, newFile }) => {
         try {
             // Upload the new file to the storage if it exists and get its URL
             let newImageUrl;
@@ -37,10 +39,10 @@ export const updateTransaction = createAsyncThunk(
 
             const updatedData = {
                 ...newTransaction,
-                imageUrl: newImageUrl || newTransaction.imageUrl,
+                image_url: newImageUrl || newTransaction.image_url,
             };
 
-            const response = await axios.put(`${BACKEND_URL}/transactions/${transactionid}`);
+            const response = await axios.put(`${BACKEND_URL}/transactions/${transactionid}`, updatedData);
             return response.data;
 
         } catch (error) {
@@ -88,7 +90,7 @@ const transactionsSlice = createSlice({
                 const updatedTransaction = action.payload;
                 const transactionIndex = state.transactions.findIndex(
                     (transaction) => transaction.id === updatedTransaction.id);
-                if (postIndex !== -1) {
+                if (transactionIndex !== -1) {
                     state.transactions[transactionIndex] = updatedTransaction;
                 }
             })
