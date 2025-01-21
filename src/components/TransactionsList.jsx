@@ -62,7 +62,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
                                     {category || 'No Category'}
                                 </Typography>
                                 <Typography variant="small" className="font-normal">
-                                    {amount} · {transactiondate || 'No Date'}
+                                    {amount} - {transactiondate || 'No Date'}
                                 </Typography>
                             </div>
                             <ListItemSuffix>
