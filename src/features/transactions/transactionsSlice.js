@@ -11,7 +11,7 @@ export const fetchTransactionsByUser = createAsyncThunk(
     "transactions/fetchByUser",
     async (uid) => {
         const response = await fetch(`${BACKEND_URL}/transactions/uid/${uid}`);
-        return response.json();
+        return response.json(); //return response.json();
     }
 );
 
@@ -63,6 +63,9 @@ const transactionsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(fetchTransactionsByUser.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(fetchTransactionsByUser.fulfilled, (state, action) => {
                 state.transactions = action.payload;
                 state.loading = false;

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReportCharts from '../components/ReportCharts';
 
 export default function BudgetsPage() {
     return (
@@ -12,8 +11,7 @@ export default function BudgetsPage() {
                 <div className="relative lg:row-span-2">
                     <div className="relative flex h-full flex-col overflow-hidden rounded-lg">
                         <div className="absolute inset-0 p-4">
-                            <ReportCharts title="Income" />
-                            <ReportCharts title="Expense" />
+
                         </div>
                     </div>
                 </div>
