@@ -63,7 +63,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
                                     {category || 'No Category'}
                                 </Typography>
                                 <Typography key={`amount-${transactionid}`} variant="small" className="font-normal">
-                                    {amount} - {transactiondate || 'No Date'}
+                                    RM {amount} - {transactiondate || 'No Date'}
                                 </Typography>
                             </div>
                             <ListItemSuffix>
