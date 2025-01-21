@@ -84,6 +84,7 @@ const transactionsSlice = createSlice({
     }
 });
 
+// Async thunk to add transaction 
 
 export default transactionsSlice.reducer;
 
