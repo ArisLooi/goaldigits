@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { incomeCategories, expenseCategories, resetCategories } from '../../assets/utils/categories';
+import { incomeCategories, expenseCategories, resetCategories } from '../assets/utils/categories';
 
 const useTransactions = (title) => {
     const { transactions } = useSelector((state) => state.transactions);
