@@ -21,19 +21,21 @@ export default function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Header />
-          <div className="flex-grow">
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
-              <Route path="/transactions" element={<PrivateRoute><TransactionsPage /></PrivateRoute>} />
-              <Route path="/reports" element={<PrivateRoute><ReportsPage /></PrivateRoute>} />
-              <Route path="/404" element={<ErrorPage />} />
-              <Route path="/*" element={<LoginPage />} />
-            </Routes>
-            <ToastContainer />
+          <div className='flex flex-col'>
+            <div className="flex-grow">
+              <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
+                <Route path="/transactions" element={<PrivateRoute><TransactionsPage /></PrivateRoute>} />
+                <Route path="/reports" element={<PrivateRoute><ReportsPage /></PrivateRoute>} />
+                <Route path="/404" element={<ErrorPage />} />
+                <Route path="/*" element={<LoginPage />} />
+              </Routes>
+              <ToastContainer />
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </BrowserRouter>
       </Provider>
     </AuthProvider >

@@ -46,6 +46,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
 
     return (
         <>
+            {console.log("Transaction List", transactions)}
             <List className='hover-none'>
                 {transactions.map((transaction) => {
                     const { amount, transactiondate, type, category, transactionid, uid } = transaction;
@@ -79,6 +80,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
                         </ListItem>
                     );
                 })}
+                {transactions.length === 0 && <p>Key in your first transaction!</p>}
             </List>
             {currentTransaction && (
                 <UpdateTransactionModal

@@ -24,7 +24,8 @@ const TransactionsPage = () => {
         }
     };
 
-    const sortedTransactions = [...transactions].sort((a, b) => new Date(b.transactiondate) - new Date(a.transactiondate));
+    const sortedTransactions = transactions.error == undefined ? [...transactions].sort((a, b) => new Date(b.transactiondate) - new Date(a.transactiondate)) : []
+    // console.log("TransactionsXYS", transactions.error, transactions, sortedTransactions)
 
     return (
         <div className="mx-auto mt-10 max-w-2xl px-6 lg:max-w-7xl lg:px-8 text-foreground">

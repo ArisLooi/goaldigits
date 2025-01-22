@@ -87,7 +87,8 @@ const transactionsSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchTransactionsByUser.fulfilled, (state, action) => {
-                state.transactions = action.payload;
+                let result = action.payload
+                state.transactions = result.error ? [] : result;
                 state.loading = false;
             })
             .addCase(fetchTransactionsByUser.rejected, (state, action) => {
