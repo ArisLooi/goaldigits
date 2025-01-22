@@ -174,7 +174,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
                 <button
                     type="submit"
-                    className="bg-green-500 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none w-full"
+                    className="bflex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                     Add Transaction
                 </button>

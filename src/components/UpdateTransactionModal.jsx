@@ -111,7 +111,7 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
     const selectedCategories = formData.type === 'income' ? incomeCategories : expenseCategories;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 overflow-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black  bg-white bg-opacity-95 overflow-auto">
             <div className="rounded-lg shadow-lg w-full max-w-md p-6 max-h-full mb-5">
                 <h2 className="text-xl font-semibold mb-4">Update Transaction</h2>
                 <form onSubmit={handleSubmit}>

@@ -38,7 +38,7 @@ const Header = () => {
                             <h1 className='ml-1sw text-lg text-white'>GoalDigits</h1>
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
-                                    <Link to="/budgets" className={getLinkClassName("/budgets")}>Set Goals</Link>
+                                    {/* <Link to="/budgets" className={getLinkClassName("/budgets")}>Set Goals</Link> */}
                                     <Link to="/transactions" className={getLinkClassName("/transactions")}>Keep Track</Link>
                                     <Link to="/reports" className={getLinkClassName("/reports")}>See Progress</Link>
                                 </div>

@@ -33,7 +33,7 @@ export default function RegisterPage() {
         <div className="isolate bg-foreground px-6 py-24 sm:py-32 lg:px-8">
             <div className="mx-auto max-w-2xl text-center text-foreground">
                 <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">Register</h2>
-                <p className="mt-2 text-lg">Track today, thrive tomorrow.</p>
+                <p className="mt-2 text-lg">Budget smarter, live freer</p>
             </div>
             <form onSubmit={handleSignUp} method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">

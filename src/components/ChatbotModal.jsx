@@ -61,10 +61,10 @@ export default function ChatbotModal({ show, handleClose }) {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
-            <div className="relative bg-white rounded-lg shadow-xl sm:max-w-lg w-full p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black  bg-white bg-opacity-75 transition-opacity">
+            <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6">
                 <div className="flex justify-between items-center pb-3">
-                    <h3 className="text-xl font-medium text-gray-900">AI Assistant</h3>
+                    <h3 className="text-xl font-medium text-">AI Assistant</h3>
                     <button type="button" className="text-gray-400 hover:text-gray-500" onClick={handleClose}>
                         <span className="sr-only">Close</span>
                         <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -83,9 +83,9 @@ export default function ChatbotModal({ show, handleClose }) {
                         placeholder="Ask chatbot something..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        className=" w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        className=" text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     />
-                    <button type="submit" className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-500 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" disabled={loading}>
+                    <button type="submit" className="mt-3 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" disabled={loading}>
                         {loading ? "Sending..." : "Send"}
                     </button>
                 </form>

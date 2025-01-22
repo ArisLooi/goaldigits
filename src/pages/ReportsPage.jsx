@@ -10,17 +10,20 @@ export default function ReportsPage({ transactions, refreshTransactions }) {
             <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-2 lg:grid-rows-1">
 
                 {/* column 1*/}
-                <div className="relative lg:row-span-2">
-                    <div className="relative flex h-full flex-col overflow-hidden rounded-lg">
-                        <ReportCharts title="Income" />
-
-
+                <div className="bg-background p-4 rounded-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-autotext-foreground">
+                    <div className="relative lg:row-span-2">
+                        <div className="relative flex h-full flex-col overflow-hidden rounded-lg">
+                            <ReportCharts title="Income" />
+                        </div>
                     </div>
                 </div>
                 {/* column 2 */}
-                <div className="relative lg:row-span-2 min-h-[70rem]">
-                    <div className="relative flex h-full flex-col overflow-hidden rounded-lg ">
-                        <ReportCharts title="Expense" />
+                <div className="bg-background p-4 rounded-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-autotext-foreground">
+
+                    <div className="relative lg:row-span-2 min-h-[70rem]">
+                        <div className="relative flex h-full flex-col overflow-hidden rounded-lg ">
+                            <ReportCharts title="Expense" />
+                        </div>
                     </div>
                 </div>
             </div>
