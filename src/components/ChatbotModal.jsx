@@ -61,7 +61,7 @@ export default function ChatbotModal({ show, handleClose }) {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black  bg-white bg-opacity-75 transition-opacity">
+        <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black  bg-white bg-opacity-95 transition-opacity">
             <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6">
                 <div className="flex justify-between items-center pb-3">
                     <h3 className="text-xl font-medium text-">AI Assistant</h3>
