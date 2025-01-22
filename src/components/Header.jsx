@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { getAuth } from "firebase/auth";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider"
-import { FaLocationArrow, FaRocketchat, FaBell } from 'react-icons/fa';
+import { FaLocationArrow, FaRocketchat, FaBell, FaRegUser } from 'react-icons/fa';
 import ChatbotModal from '../components/ChatbotModal'
 
 const Header = () => {
@@ -15,8 +15,6 @@ const Header = () => {
 
     const handleCloseChatbot = () => setShowChatbot(false);
     const handleShowChatbot = () => setShowChatbot(true);
-
-    useEffect(() => { if (!currentUser) { navigate("/login"); } }, [currentUser, navigate]);
 
     const handleLogout = () => {
         auth.signOut();
@@ -37,7 +35,7 @@ const Header = () => {
                             <div className="shrink-0">
                                 <FaLocationArrow className='text-white' />
                             </div>
-                            <h1 className='ml-3 text-lg text-white'>GoalDigits</h1>
+                            <h1 className='ml-1sw text-lg text-white'>GoalDigits</h1>
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     <Link to="/budgets" className={getLinkClassName("/budgets")}>Set Goals</Link>
@@ -50,7 +48,7 @@ const Header = () => {
                         <div className="hidden md:block">
                             <div className="ml-4 flex items-center md:ml-6">
 
-                                <button onClick={handleShowChatbot} type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-blue-500 focus:outline-none ">
+                                <button onClick={handleShowChatbot} type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 ">
                                     <span className="absolute -inset-1.5"></span>
                                     <span className="sr-only">Get help</span>
                                     <FaRocketchat />
@@ -67,7 +65,7 @@ const Header = () => {
                                         <button type="button" className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                                             <span className="absolute -inset-1.5"></span>
                                             <span className="sr-only">Open user menu</span>
-                                            <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User Profile" />
+                                            <FaRegUser />
                                         </button>
                                     </div>
 

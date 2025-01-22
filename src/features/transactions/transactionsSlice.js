@@ -66,9 +66,16 @@ export const deleteTransaction = createAsyncThunk(
     }
 );
 
+
+const initialState = {
+    transactions: [],
+    loading: true,
+    error: null // Add error state for better error handling
+};
+
 const transactionsSlice = createSlice({
     name: "transactions",
-    initialState: { transactions: [], loading: true },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -77,10 +84,15 @@ const transactionsSlice = createSlice({
             })
             .addCase(fetchTransactionsByUser.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(fetchTransactionsByUser.fulfilled, (state, action) => {
                 state.transactions = action.payload;
                 state.loading = false;
+            })
+            .addCase(fetchTransactionsByUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message; // Store error message
             })
             .addCase(deleteTransaction.fulfilled, (state, action) => {
                 const deletedtransactionid = action.payload;
@@ -89,17 +101,13 @@ const transactionsSlice = createSlice({
             .addCase(updateTransaction.fulfilled, (state, action) => {
                 const updatedTransaction = action.payload;
                 const transactionIndex = state.transactions.findIndex(
-                    (transaction) => transaction.id === updatedTransaction.id);
+                    (transaction) => transaction.transactionid === updatedTransaction.transactionid);
                 if (transactionIndex !== -1) {
                     state.transactions[transactionIndex] = updatedTransaction;
                 }
-            })
-
-
+            });
     }
 });
-
-// Async thunk to add transaction 
 
 export default transactionsSlice.reducer;
 
