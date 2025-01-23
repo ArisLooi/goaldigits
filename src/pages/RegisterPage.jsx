@@ -25,9 +25,25 @@ export default function RegisterPage() {
             navigate("/login");
         } catch (error) {
             console.error(`Error during sign up: ${error}`);
-            toast.error(`Error: ${error.message}`);
+            let errorMessage = "";
+            switch (error.code) {
+                case "auth/email-already-in-use":
+                    errorMessage = "This email is already in use. Please try logging in or use a different email.";
+                    break;
+                case "auth/invalid-email":
+                    errorMessage = "Invalid email address. Please check and try again.";
+                    break;
+                case "auth/weak-password":
+                    errorMessage = "Your password is too weak. Please choose a stronger password.";
+                    break;
+                default:
+                    errorMessage = "An error occurred during sign up. Please try again later.";
+            }
+            toast.error(`${errorMessage}`);
         }
     };
+
+
 
     return (
         <div className="isolate bg-foreground px-6 py-24 sm:py-32 lg:px-8">
