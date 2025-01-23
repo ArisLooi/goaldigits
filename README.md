@@ -85,5 +85,5 @@ Special thanks to:
 - **Safa Yousif** - Sigma School Instructor
 - **Chan Ken Jin** - Education Manager
 - **Khant Linn Tun** - Mentor & Teaching Assistant
-- **Jun Heng** - Mentor & Teaching Assistant
+- **Jun Heng** - Teaching Assistant
 
