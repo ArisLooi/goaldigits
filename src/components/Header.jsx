@@ -122,31 +122,38 @@ const Header = () => {
                                     <span className="sr-only">Get help</span>
                                     <FaRocketchat />
                                 </button>
-                                <button type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                    <span className="absolute -inset-1.5"></span>
-                                    <span className="sr-only">View notifications</span>
-                                    <FaBell />
-                                </button>
 
-                                {/* Profile dropdown */}
-                                <div className="relative ml-3">
-                                    <div>
-                                        <button type="button" className="relative flex max-w-xs items-center rounded-full text-gray-400 hover:text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                                {currentUser && (
+                                    <>
+                                        {/* Notification icon */}
+                                        <button type="button" className="mr-3 relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             <span className="absolute -inset-1.5"></span>
-                                            <span className="sr-only">Open user menu</span>
-                                            <FaRegUser />
+                                            <span className="sr-only">View notifications</span>
+                                            <FaBell />
                                         </button>
-                                    </div>
 
-                                    {isMobileMenuOpen && (
-                                        <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-                                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">My Profile</Link>
-                                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</Link>
-                                            <Link to="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</Link>
+                                        {/* Profile dropdown */}
+                                        <div className="relative ml-3">
+                                            <div>
+                                                <button type="button" className="relative flex max-w-xs items-center rounded-full text-gray-400 hover:text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                                                    <span className="absolute -inset-1.5"></span>
+                                                    <span className="sr-only">Open user menu</span>
+                                                    <FaRegUser />
+                                                </button>
+                                            </div>
+
+                                            {isMobileMenuOpen && (
+                                                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+                                                    <Link to="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">My Profile</Link>
+                                                    <Link to="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</Link>
+                                                    <Link to="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:text-red-500" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</Link>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
+                                    </>
+                                )}
                             </div>
+
                         </div>
 
                         <div className="-mr-2 flex md:hidden">
@@ -197,18 +204,27 @@ const Header = () => {
                                         <span className="sr-only">Get help</span>
                                         <FaRocketchat />
                                     </button>
-                                    <button type="button" className="relative shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-none focus:ring-offset-2 focus:ring-offset-gray-800">
-                                        <span className="absolute -inset-1.5"></span>
-                                        <span className="sr-only">View notifications</span>
-                                        <FaBell />
-                                    </button>
 
+                                    {currentUser && (
+                                        <>
+                                            <button type="button" className="relative shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-none focus:ring-offset-2 focus:ring-offset-gray-800">
+                                                <span className="absolute -inset-1.5"></span>
+                                                <span className="sr-only">View notifications</span>
+                                                <FaBell />
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
-                                <div className="mt-3 space-y-1 px-2">
-                                    <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">My Profile</Link>
-                                    <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</Link>
-                                    <Link to="#" onClick={handleLogout} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-red-500">Sign out</Link>
-                                </div>
+
+                                {currentUser && (
+                                    <>
+                                        <div className="mt-3 space-y-1 px-2">
+                                            <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">My Profile</Link>
+                                            <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</Link>
+                                            <Link to="#" onClick={handleLogout} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-red-500">Sign out</Link>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     )
