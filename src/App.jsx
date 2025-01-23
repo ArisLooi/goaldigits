@@ -20,15 +20,36 @@ export default function App() {
     <AuthProvider>
       <Provider store={store}>
         <BrowserRouter>
-          <Header />
-          <div className='flex flex-col'>
+          <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
+            <Header />
             <div className="flex-grow">
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
-                <Route path="/transactions" element={<PrivateRoute><TransactionsPage /></PrivateRoute>} />
-                <Route path="/reports" element={<PrivateRoute><ReportsPage /></PrivateRoute>} />
+                <Route
+                  path="/budgets"
+                  element={
+                    <PrivateRoute>
+                      <BudgetsPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/transactions"
+                  element={
+                    <PrivateRoute>
+                      <TransactionsPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/reports"
+                  element={
+                    <PrivateRoute>
+                      <ReportsPage />
+                    </PrivateRoute>
+                  }
+                />
                 <Route path="/404" element={<ErrorPage />} />
                 <Route path="/*" element={<LoginPage />} />
               </Routes>
@@ -38,6 +59,6 @@ export default function App() {
           </div>
         </BrowserRouter>
       </Provider>
-    </AuthProvider >
+    </AuthProvider>
   );
 }

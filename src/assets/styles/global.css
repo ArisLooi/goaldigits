@@ -13,12 +13,9 @@
 }
 
 /* Dark mode theme colors */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #1a202c;
-        ;
-        --foreground: #ffffff;
-    }
+.dark {
+    --background: #1a202c;
+    --foreground: #ffffff;
 }
 
 /* Apply theme colors to the body */
