@@ -67,7 +67,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
                                     RM {amount} - {transactiondate || 'No Date'}
                                 </Typography>
                             </div>
-                            <ListItemSuffix>
+                            <ListItemSuffix className="flex-grow flex justify-end">
                                 <div className="flex space-x-2">
                                     <IconButton key={`edit-${transactionid}`} onClick={() => handleUpdate(transaction)} variant="text" className="align-right rounded-full flex items-center justify-center text-foreground hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
                                         <FaRegEdit />
