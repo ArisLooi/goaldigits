@@ -207,7 +207,7 @@ const Header = () => {
                                 <div className="mt-3 space-y-1 px-2">
                                     <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">My Profile</Link>
                                     <Link to="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</Link>
-                                    <Link to="#" onClick={handleLogout} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</Link>
+                                    <Link to="#" onClick={handleLogout} className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-red-500">Sign out</Link>
                                 </div>
                             </div>
                         </div>
