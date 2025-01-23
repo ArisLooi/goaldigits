@@ -6,7 +6,7 @@ import { createTransaction } from '../features/transactions/transactionsSlice'
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FaImage } from 'react-icons/fa';
-import { incomeCategories, expenseCategories } from '../assets/utils/categories'
+import { categories } from '../assets/utils/categories'
 
 const TransactionsForm = ({ refreshTransactions }) => {
     const [transactiondate, setTransactionDate] = useState('');
@@ -70,7 +70,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
     };
 
     // Ensure the categories are correctly selected based on the type
-    const selectedCategories = type === 'income' ? incomeCategories : expenseCategories;
+    const selectedCategories = type === 'income' ? categories.income : categories.expense;
 
     return (
         <div className="bg-background p-4 rounded-lg w-full max-w-md mx-auto sm:max-w-lg lg:max-w-xl">

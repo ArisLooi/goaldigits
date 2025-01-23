@@ -7,9 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js/auto';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ReportCharts = ({ title }) => {
-    const { total, chartData } = useTransactions(title?.toLowerCase() || '');
-
-    const hasData = chartData?.datasets?.[0]?.data?.length > 0;
+    const { total, chartData, filteredCategories } = useTransactions(title?.toLowerCase() || '');
 
     return (
         <Card className={`text-${title === 'Income' ? 'green' : 'red'}-800 bg-transparent`}>
@@ -20,8 +18,23 @@ const ReportCharts = ({ title }) => {
                 <Typography variant="h5">
                     {total !== undefined ? `RM${total}` : 'Loading...'}
                 </Typography>
-                {hasData ? (
-                    <Doughnut data={chartData} />
+                {filteredCategories.length ? (
+                    <>
+                        <Doughnut data={chartData} options={{
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: (tooltipItem) => {
+                                            const index = tooltipItem.dataIndex;
+                                            const amount = chartData.datasets[0].data[index];
+                                            const percentage = ((amount / total.replace(/,/g, '')) * 100).toFixed(2);
+                                            return `${tooltipItem.label}: RM${amount} (${percentage}%)`;
+                                        },
+                                    },
+                                },
+                            },
+                        }} />
+                    </>
                 ) : (
                     <Typography variant="body1" className="text-gray-500">
                         No data available.

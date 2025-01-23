@@ -1,29 +1,26 @@
 import { useSelector } from 'react-redux';
-import { incomeCategories, expenseCategories, resetCategories } from '../assets/utils/categories';
+import { categories, resetCategories } from '../assets/utils/categories';
+import chartColors from '../assets/utils/chartColors';
 
-const useTransactions = (title) => {
+const useTransactions = (type) => {
     const { transactions } = useSelector((state) => state.transactions);
-    resetCategories();
+    const categoryGroup = categories[type];
+    const colorGroup = chartColors[type];
 
-    // Filter transactions by type
-    const rightTransactions = transactions.filter((t) => t.type === title);
+    resetCategories(categories);
 
-    // Calculate the total by ensuring amounts are numbers
-    const total = rightTransactions.reduce((acc, currVal) => acc += parseFloat(currVal.amount), 0).toLocaleString();
+    const filteredTransactions = transactions.filter((t) => t.type === type);
+    const total = filteredTransactions.reduce((acc, curr) => acc + parseFloat(curr.amount), 0).toLocaleString();
 
-    // Select categories based on title
-    const categories = title === 'income' ? incomeCategories : expenseCategories;
-
-    // Aggregate amounts by category
-    rightTransactions.forEach((t) => {
-        const category = categories.find((c) => c.type === t.category);
-        if (category) category.amount += parseFloat(t.amount);
+    filteredTransactions.forEach((t) => {
+        const category = categoryGroup.find((c) => c.type === t.category);
+        if (category) category.amount = (category.amount || 0) + parseFloat(t.amount);
     });
 
-    // Filter categories with amount > 0
-    const filteredCategories = categories.filter((sc) => sc.amount > 0);
+    const filteredCategories = categoryGroup
+        .map((c, idx) => ({ ...c, color: colorGroup[idx], amount: c.amount || 0 }))
+        .filter((c) => c.amount > 0);
 
-    // Prepare chart data
     const chartData = {
         datasets: [{
             data: filteredCategories.map((c) => c.amount),
@@ -31,15 +28,6 @@ const useTransactions = (title) => {
         }],
         labels: filteredCategories.map((c) => c.type),
     };
-
-    // Debugging logs 
-    // console.log("Title:", title);
-    // console.log("Transactions:", transactions);
-    // console.log("Filtered Transactions:", rightTransactions);
-    // console.log("Total:", total);
-    // console.log("Categories:", categories);
-    // console.log("Filtered Categories:", filteredCategories);
-    // console.log("ChartData:", chartData);
 
     return { filteredCategories, total, chartData };
 };

@@ -7,7 +7,7 @@ import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 import { FaImage } from 'react-icons/fa';
-import { incomeCategories, expenseCategories } from '../assets/utils/categories'
+import { categories } from '../assets/utils/categories'
 
 const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransactions }) => {
     const [formData, setFormData] = useState({
@@ -108,7 +108,7 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
     if (!isOpen) return null;
 
     // Ensure the categories are correctly selected based on the type 
-    const selectedCategories = formData.type === 'income' ? incomeCategories : expenseCategories;
+    const selectedCategories = type === 'income' ? categories.income : categories.expense;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black  bg-white bg-opacity-95 overflow-auto">
