@@ -42,7 +42,7 @@ export default function ChatbotModal({ show, handleClose }) {
             const data = await response.json();
 
             if (data) {
-                console.log(data);
+                // console.log(data);
                 let newAllMessages = [
                     ...messagesToSend,
                     data.choices[0].message

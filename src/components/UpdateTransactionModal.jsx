@@ -71,7 +71,7 @@ const UpdateTransactionModal = ({ isOpen, onClose, transaction, refreshTransacti
                     newFile: image
                 })).unwrap();
 
-                console.log("Update Response", response);
+                // console.log("Update Response", response);
 
                 if (response.data && response.data.transactionid) {
                     toast.success('Transaction updated successfully!');

@@ -33,13 +33,13 @@ const useTransactions = (title) => {
     };
 
     // Debugging logs 
-    console.log("Title:", title);
-    console.log("Transactions:", transactions);
-    console.log("Filtered Transactions:", rightTransactions);
-    console.log("Total:", total);
-    console.log("Categories:", categories);
-    console.log("Filtered Categories:", filteredCategories);
-    console.log("ChartData:", chartData);
+    // console.log("Title:", title);
+    // console.log("Transactions:", transactions);
+    // console.log("Filtered Transactions:", rightTransactions);
+    // console.log("Total:", total);
+    // console.log("Categories:", categories);
+    // console.log("Filtered Categories:", filteredCategories);
+    // console.log("ChartData:", chartData);
 
     return { filteredCategories, total, chartData };
 };

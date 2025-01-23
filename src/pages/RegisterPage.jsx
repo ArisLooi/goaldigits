@@ -12,16 +12,16 @@ export default function RegisterPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("RegisterPage loaded");
+        // console.log("RegisterPage loaded");
     }, []);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            console.log("Attempting to register user with email:", email);
+            // console.log("Attempting to register user with email:", email);
             await createUserWithEmailAndPassword(auth, email, password);
             toast.success("Successfully registered!");
-            console.log("User registered, navigating to /login");
+            // console.log("User registered, navigating to /login");
             navigate("/login");
         } catch (error) {
             console.error(`Error during sign up: ${error}`);

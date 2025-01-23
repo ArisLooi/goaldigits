@@ -12,7 +12,7 @@ export default function LoginPage() {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        console.log("Current user", currentUser);
+        // console.log("Current user", currentUser);
         if (currentUser) navigate("/transactions");
     }, [currentUser, navigate]);
 

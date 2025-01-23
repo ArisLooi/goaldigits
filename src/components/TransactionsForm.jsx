@@ -37,7 +37,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                 const storageRef = ref(storage, `images/${image.name}`);
                 const snapshot = await uploadBytes(storageRef, image);
                 uploadedImageUrl = await getDownloadURL(snapshot.ref);
-                console.log("Image", image);
+                // console.log("Image", image);
             }
 
             const data = {

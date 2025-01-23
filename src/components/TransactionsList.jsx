@@ -19,7 +19,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
     const [currentTransaction, setCurrentTransaction] = useState(null);
 
     const handleUpdate = (transaction) => {
-        console.log('Opening modal for transaction:', transaction);
+        // console.log('Opening modal for transaction:', transaction);
         setCurrentTransaction(transaction);
         setIsModalOpen(true);
     };
@@ -46,7 +46,7 @@ export default function TransactionsList({ transactions, refreshTransactions }) 
 
     return (
         <>
-            {console.log("Transaction List", transactions)}
+            {/* {console.log("Transaction List", transactions)} */}
             <List className='hover-none'>
                 {transactions.map((transaction) => {
                     const { amount, transactiondate, type, category, transactionid, uid } = transaction;

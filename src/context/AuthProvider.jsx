@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
         return auth.onAuthStateChanged((user) => {
             setCurrentUser(user);
             setLoading(false);
-            console.log("AuthStateChanged: user", user);
+            // console.log("AuthStateChanged: user", user);
         });
     }, []);
 
