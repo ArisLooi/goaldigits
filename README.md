@@ -83,7 +83,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 Special thanks to:
 - **Safa Yousif** - Sigma School Instructor
-- **Ken** - Education Manager
-- **Khant Linn Tun** - Mentor & TA
-- **Jun Heng** - TA
+- **Chan Ken Jin** - Education Manager
+- **Khant Linn Tun** - Mentor & Teaching Assistant
+- **Jun Heng** - Mentor & Teaching Assistant
 
