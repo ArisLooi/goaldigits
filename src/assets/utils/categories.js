@@ -1,6 +1,8 @@
+/* Color arrays for income and expense categories */
 const incomeColors = ['#123123', '#154731', '#165f40', '#16784f', '#14915f', '#10ac6e', '#0bc77e', '#04e38d', '#00ff9d'];
 const expenseColors = ['#b50d12', '#bf2f1f', '#c9452c', '#d3583a', '#dc6a48', '#e57c58', '#ee8d68', '#f79d79', '#ffae8a', '#cc474b', '#f55b5f'];
 
+/* Income categories with default amount and color */
 export const incomeCategories = [
     { type: 'Business', amount: 0, color: incomeColors[0] },
     { type: 'Investments', amount: 0, color: incomeColors[1] },
@@ -13,6 +15,7 @@ export const incomeCategories = [
     { type: 'Rental income', amount: 0, color: incomeColors[8] },
 ];
 
+/* Expense categories with default amount and color */
 export const expenseCategories = [
     { type: 'Bills', amount: 0, color: expenseColors[0] },
     { type: 'Car', amount: 0, color: expenseColors[1] },
@@ -27,6 +30,7 @@ export const expenseCategories = [
     { type: 'Other', amount: 0, color: expenseColors[10] },
 ];
 
+/* Function to reset categories to default amount */
 export const resetCategories = () => {
     incomeCategories.forEach((c) => c.amount = 0);
     expenseCategories.forEach((c) => c.amount = 0);

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { getAuth } from "firebase/auth";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import { AuthContext } from "../context/AuthProvider"
+import { getAuth } from 'firebase/auth';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { AuthContext } from '../context/AuthProvider'
 import { FaLocationArrow, FaRocketchat, FaBell, FaRegUser } from 'react-icons/fa';
 import ChatbotModal from '../components/ChatbotModal'
 

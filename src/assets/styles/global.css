@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for theme colors */
 :root {
     --background: #f0f4f8;
     --foreground: #2d3748;
@@ -11,6 +12,7 @@
     /* Red color for expense */
 }
 
+/* Dark mode theme colors */
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #1a202c;
@@ -19,12 +21,14 @@
     }
 }
 
+/* Apply theme colors to the body */
 body {
     color: var(--foreground);
     background: var(--background);
     font-family: 'Poppins', sans-serif;
 }
 
+/* Modal background color and opacity */
 .modal-background {
     background-color: var(--background);
     opacity: 0.98;
