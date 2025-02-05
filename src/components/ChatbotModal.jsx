@@ -61,8 +61,8 @@ export default function ChatbotModal({ show, handleClose }) {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background bg-opacity-95 transition-opacity">
-            <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background bg-opacity-95 transition-opacity ">
+            <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6 h-auto">
                 <div className="flex justify-between items-center pb-3">
                     <h3 className="text-xl font-medium text-">AI Assistant</h3>
                     <button type="button" className="text-gray-400 hover:text-gray-500" onClick={handleClose}>
@@ -72,9 +72,13 @@ export default function ChatbotModal({ show, handleClose }) {
                         </svg>
                     </button>
                 </div>
-                <div>
+                <div className="overflow-y-scroll border p-4 rounded-md 
+    max-h-40 sm:max-h-60 md:max-h-80 lg:max-h-96">
                     {allMessages.map((msg, index) => (
-                        <p key={index}><strong>{msg.role}:</strong> {msg.content}</p>
+                        <div key={index} className="mb-4">
+                            <p className="font-semibold">{msg.role}:</p>
+                            <p>{msg.content}</p>
+                        </div>
                     ))}
                 </div>
                 <form onSubmit={sendMessage} className="mt-4">
