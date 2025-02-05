@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { createTransaction } from '../features/transactions/transactionsSlice';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { FaImage, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import { FaImage, FaMicrophone, FaMicrophoneSlash, FaTimes } from 'react-icons/fa';
 import { categories } from '../assets/utils/categories';
 import useSpeechRecognition from '../hook/useSpeechRecognition';
 
@@ -303,7 +303,18 @@ const TransactionsForm = ({ refreshTransactions }) => {
                         className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none text-gray-900"
                     />
                     {imagePreview ? (
-                        <img src={imagePreview} alt="Transaction" className="mt-2 rounded-md max-h-70 overflow-auto" />
+                        <div className="relative mt-2">
+                            <img src={imagePreview} alt="Transaction" className="rounded-md max-h-70 overflow-auto" />
+                            <FaTimes
+                                type="button"
+                                onClick={() => {
+                                    setImage(null);
+                                    setImagePreview('');
+                                }}
+                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-sm shadow-md hover:bg-red-600"
+                            />
+
+                        </div>
                     ) : (
                         <div className="flex items-center justify-center mt-2 text-gray-600">
                             <FaImage className="text-3xl/>

@@ -63,7 +63,7 @@ export default function ChatbotModal({ show, handleClose }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background bg-opacity-95 transition-opacity ">
-            <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6 h-auto">
+            <div className="relative sm:max-w-lg w-full p-6 h-auto">
                 <div className="flex justify-between items-center pb-3">
                     {/* Close Chat Modal */}
                     <button type="button" className="text-gray-400 hover:text-gray-500 mr-2" onClick={handleClose}>
@@ -74,13 +74,13 @@ export default function ChatbotModal({ show, handleClose }) {
                     <div className="flex items-center space-x-3">
                         {/* Clear Messages Button */}
                         <button type="button" className="text-gray-400 hover:text-gray-500" onClick={() => setAllMessages([])}>
-                            <span className="text-lg">✖</span>
+                            <span className="text-lg">Clear</span>
                         </button>
                     </div>
                 </div>
                 {allMessages.length > 0 && (
                     <div className="overflow-y-scroll border p-4 rounded-md 
-    max-h-40 sm:max-h-10 md:max-h-80 lg:max-h-96">
+    max-h-40 sm:max-h-50 md:max-h-80 lg:max-h-96">
                         {allMessages.map((msg, index) => (
                             <div key={index} className="mb-4">
                                 <p className="font-semibold">{msg.role}:</p>
