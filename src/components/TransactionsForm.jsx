@@ -105,13 +105,13 @@ const TransactionsForm = ({ refreshTransactions }) => {
             }
         }
 
-        if (!descriptionText) {
-            const words = text.split(' ');
-            const remainingWords = words.filter(word =>
-                !word.match(/^(rm|myr|ringgit|income|expense|category|january|february|march|april|may|june|july|august|september|october|november|december)$/i)
-            );
-            descriptionText = remainingWords.join(' ');
-        }
+        // if (!descriptionText) {
+        //     const words = text.split(' ');
+        //     const remainingWords = words.filter(word =>
+        //         !word.match(/^(rm|myr|ringgit|income|expense|category|january|february|march|april|may|june|july|august|september|october|november|december)$/i)
+        //     );
+        //     descriptionText = remainingWords.join(' ');
+        // }
 
         if (descriptionText) {
             setDescription(descriptionText);
