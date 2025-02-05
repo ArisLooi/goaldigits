@@ -1,12 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AuthContext } from '../context/AuthProvider';
 import { toast } from 'react-toastify';
-import { createTransaction } from '../features/transactions/transactionsSlice'
+import { createTransaction } from '../features/transactions/transactionsSlice';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { FaImage } from 'react-icons/fa';
-import { categories } from '../assets/utils/categories'
+import { FaImage, FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import { categories } from '../assets/utils/categories';
+import useSpeechRecognition from '../hook/useSpeechRecognition';
 
 const TransactionsForm = ({ refreshTransactions }) => {
     const [transactiondate, setTransactionDate] = useState('');
@@ -18,6 +19,125 @@ const TransactionsForm = ({ refreshTransactions }) => {
     const [imagePreview, setImagePreview] = useState('');
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
+    const { isListening, transcript, startListening, stopListening, isSupported } = useSpeechRecognition();
+
+    // Process voice input
+    const processVoiceInput = (transcript) => {
+        if (!transcript) return;
+
+        const text = transcript.toLowerCase();
+        console.log('Processing voice input:', text); // For debugging
+
+        // Process date
+        const monthNames = {
+            'january': '01', 'february': '02', 'march': '03', 'april': '04',
+            'may': '05', 'june': '06', 'july': '07', 'august': '08',
+            'september': '09', 'october': '10', 'november': '11', 'december': '12'
+        };
+
+        // Handle common misspellings
+        const monthAliases = {
+            'febuary': 'february',
+            'sept': 'september',
+            'oct': 'october',
+            'nov': 'november',
+            'dec': 'december'
+        };
+
+        // Replace common misspellings with correct month names
+        let correctedText = text;
+        for (const [alias, correctMonth] of Object.entries(monthAliases)) {
+            correctedText = correctedText.replace(alias, correctMonth);
+        }
+
+        const dateMatch = correctedText.match(/(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?(?:\s*,?\s*(\d{4}))?/i);
+        if (dateMatch) {
+            const month = monthNames[dateMatch[1].toLowerCase()];
+            let day = dateMatch[2].padStart(2, '0');
+            const year = dateMatch[3] || new Date().getFullYear();
+
+            // Format as dd/mm/yyyy
+            const formattedDate = `${year}-${month}-${day}`;
+            setTransactionDate(formattedDate);
+            console.log('Date set:', formattedDate);
+        }
+
+        // Process amount
+        const amountRegex = /(?:rm|myr|ringgit)?\s*(\d+(?:\.\d{2})?|\d+)/i;
+        const amountMatch = text.match(amountRegex);
+        if (amountMatch) {
+            const amount = amountMatch[1].replace(/[^\d.]/g, '');
+            setAmount(amount);
+            console.log('Amount set:', amount);
+        }
+
+        // Process type
+        if (text.includes('income') || text.includes('earning') || text.includes('salary')) {
+            setType('income');
+            console.log('Type set: income');
+        } else if (text.includes('expense') || text.includes('spent') || text.includes('payment')) {
+            setType('expense');
+            console.log('Type set: expense');
+        }
+
+        // Process category
+        const allCategories = [...categories.income, ...categories.expense];
+        const categoryMatch = allCategories.find(c =>
+            text.includes(c.type.toLowerCase()) ||
+            text.includes(`category ${c.type.toLowerCase()}`)
+        );
+        if (categoryMatch) {
+            setCategory(categoryMatch.type);
+            console.log('Category set:', categoryMatch.type);
+        }
+
+        // Process description
+        let descriptionText = '';
+        const descriptionMarkers = ['description', 'note', 'for', 'about'];
+
+        for (const marker of descriptionMarkers) {
+            const regex = new RegExp(`${marker}\\s+(.+?)(?=\\s+(?:${descriptionMarkers.join('|')})|$)`, 'i');
+            const match = text.match(regex);
+            if (match) {
+                descriptionText = match[1].trim();
+                break;
+            }
+        }
+
+        if (!descriptionText) {
+            const words = text.split(' ');
+            const remainingWords = words.filter(word =>
+                !word.match(/^(rm|myr|ringgit|income|expense|category|january|february|march|april|may|june|july|august|september|october|november|december)$/i)
+            );
+            descriptionText = remainingWords.join(' ');
+        }
+
+        if (descriptionText) {
+            setDescription(descriptionText);
+            console.log('Description set:', descriptionText);
+        }
+
+
+    };
+
+    // Process transcript when it changes
+    useEffect(() => {
+        if (transcript) {
+            processVoiceInput(transcript);
+            toast.success('Voice input processed');
+        }
+    }, [transcript]);
+
+    const handleVoiceCommand = () => {
+        if (isListening) {
+            stopListening();
+        } else {
+            toast.info(
+                'Speak your transaction details. For example: "Income of RM 500 on January 15th 2024 for salary in category wages description monthly payment"'
+            );
+            startListening();
+        }
+    };
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -74,6 +194,26 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
     return (
         <div className="bg-background p-4 rounded-lg w-full max-w-md mx-auto sm:max-w-lg lg:max-w-xl">
+            {isSupported && (
+                <button
+                    type="button"
+                    onClick={handleVoiceCommand}
+                    className={`mb-4 p-3 rounded-full ${isListening ? 'bg-red-500 text-white' : 'bg-indigo-600 text-white'
+                        } flex items-center justify-center w-full gap-2`}
+                >
+                    {isListening ? (
+                        <>
+                            <FaMicrophoneSlash className="w-4 h-4" />
+                            <span>Stop Listening</span>
+                        </>
+                    ) : (
+                        <>
+                            <FaMicrophone className="w-4 h-4" />
+                            <span>Add Transaction by Voice</span>
+                        </>
+                    )}
+                </button>
+            )}
             <form onSubmit={handleSubmit}>
                 {/* Transaction type */}
                 <div className="flex flex-col mb-4">
@@ -174,10 +314,11 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
                 <button
                     type="submit"
-                    className="bflex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="mb-5 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Add Transaction
+                    Submit
                 </button>
+
             </form>
         </div>
     );
