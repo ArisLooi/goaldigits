@@ -30,7 +30,7 @@ const TransactionsPage = () => {
     return (
         <div className="mx-auto mt-10 max-w-2xl px-6 lg:max-w-7xl lg:px-8 text-foreground">
             <h2 className="text-center text-base font-semibold text-indigo-600">Budget smarter, live freer</h2>
-            <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">Budget Tracker</p>
+            <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">Expenses Tracker</p>
             {/* <p className="text-center text-base mt-5">...</p> */}
             <div className="mt-10 grid gap-1 sm:mt-16 lg:grid-cols-2 lg:grid-rows-1">
 
