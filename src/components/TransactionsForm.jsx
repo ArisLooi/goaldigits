@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { createTransaction } from '../features/transactions/transactionsSlice';
 import { storage } from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { FaImage, FaMicrophone, FaMicrophoneSlash, FaTimes } from 'react-icons/fa';
+import { FaImage, FaMicrophone, FaMicrophoneSlash, FaTimes, FaSpinner } from 'react-icons/fa';
 import { categories } from '../assets/utils/categories';
 import useSpeechRecognition from '../hook/useSpeechRecognition';
 
@@ -19,6 +19,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
     const [imagePreview, setImagePreview] = useState('');
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const { isListening, transcript, startListening, stopListening, isSupported } = useSpeechRecognition();
 
     // Process voice input
@@ -132,9 +133,6 @@ const TransactionsForm = ({ refreshTransactions }) => {
         if (isListening) {
             stopListening();
         } else {
-            toast.info(
-                'Speak your transaction details. For example: "Income of RM 500 on January 15th 2024 for salary in category wages description monthly payment"'
-            );
             startListening();
         }
     };
@@ -148,6 +146,10 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (loading) return; // Prevent duplicate submissions
+
+        setLoading(true); // Show loading
 
         if (currentUser) {
             let uploadedImageUrl = '';
@@ -185,6 +187,8 @@ const TransactionsForm = ({ refreshTransactions }) => {
             } catch (error) {
                 console.error('Error adding transaction:', error);
                 toast.error('Error adding transaction.');
+            } finally {
+                setLoading(false); // Hide loading
             }
         }
     };
@@ -198,7 +202,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                 <button
                     type="button"
                     onClick={handleVoiceCommand}
-                    className={`mb-4 p-3 rounded-full ${isListening ? 'bg-red-500 text-white' : 'bg-indigo-600 text-white'
+                    className={`mb-4 p-3 rounded-md ${isListening ? 'bg-red-500 text-white' : 'bg-indigo-600 text-white'
                         } flex items-center justify-center w-full gap-2`}
                 >
                     {isListening ? (
@@ -214,6 +218,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
                     )}
                 </button>
             )}
+
             <form onSubmit={handleSubmit}>
                 {/* Transaction type */}
                 <div className="flex flex-col mb-4">
@@ -325,9 +330,16 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
                 <button
                     type="submit"
-                    className="mb-5 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className={`mb-4 p-3 flex items-center justify-center w-full gap-2 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500'} px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`} disabled={loading}
                 >
-                    Submit
+                    {loading ? (
+                        <>
+                            <FaSpinner />
+                            Processing...
+                        </>
+                    ) : (
+                        'Submit'
+                    )}
                 </button>
 
             </form>

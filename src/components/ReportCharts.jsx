@@ -22,6 +22,15 @@ const ReportCharts = ({ title }) => {
                     <>
                         <Doughnut data={chartData} options={{
                             plugins: {
+                                legend: {
+                                    labels: {
+                                        font: {
+                                            size: 20, // Increase legend label size
+                                            weight: 'bold'
+                                        },
+                                        color: '#A0AEC0', // Optional: Change legend text color
+                                    }
+                                },
                                 tooltip: {
                                     callbacks: {
                                         label: (tooltipItem) => {
