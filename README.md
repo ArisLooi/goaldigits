@@ -11,6 +11,7 @@ GoalDigits is a financial tracking application built with React, Redux, and Fire
 - Responsive Design
 - Dark Mode
 - Integrated Chatbot
+- Speech-to-text Add Transactions
 
 ## Technologies Used
 
@@ -20,6 +21,8 @@ GoalDigits is a financial tracking application built with React, Redux, and Fire
 - Tailwind CSS
 - React Router
 - react-icons
+- OpenAI API
+- Web Speech API
 
 ## Getting Started
 
