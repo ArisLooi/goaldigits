@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaAngleLeft } from "react-icons/fa";
 
 export default function ChatbotModal({ show, handleClose }) {
     const [message, setMessage] = useState('');
@@ -64,23 +65,30 @@ export default function ChatbotModal({ show, handleClose }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background bg-opacity-95 transition-opacity ">
             <div className="relative  rounded-lg shadow-xl sm:max-w-lg w-full p-6 h-auto">
                 <div className="flex justify-between items-center pb-3">
-                    <h3 className="text-xl font-medium text-">AI Assistant</h3>
-                    <button type="button" className="text-gray-400 hover:text-gray-500" onClick={handleClose}>
-                        <span className="sr-only">Close</span>
-                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                    {/* Close Chat Modal */}
+                    <button type="button" className="text-gray-400 hover:text-gray-500 mr-2" onClick={handleClose}>
+                        <FaAngleLeft />
                     </button>
+
+                    <h3 className="text-xl font-medium text-">AI Assistant</h3>
+                    <div className="flex items-center space-x-3">
+                        {/* Clear Messages Button */}
+                        <button type="button" className="text-gray-400 hover:text-gray-500" onClick={() => setAllMessages([])}>
+                            <span className="text-lg">✖</span>
+                        </button>
+                    </div>
                 </div>
-                <div className="overflow-y-scroll border p-4 rounded-md 
-    max-h-40 sm:max-h-60 md:max-h-80 lg:max-h-96">
-                    {allMessages.map((msg, index) => (
-                        <div key={index} className="mb-4">
-                            <p className="font-semibold">{msg.role}:</p>
-                            <p>{msg.content}</p>
-                        </div>
-                    ))}
-                </div>
+                {allMessages.length > 0 && (
+                    <div className="overflow-y-scroll border p-4 rounded-md 
+    max-h-40 sm:max-h-10 md:max-h-80 lg:max-h-96">
+                        {allMessages.map((msg, index) => (
+                            <div key={index} className="mb-4">
+                                <p className="font-semibold">{msg.role}:</p>
+                                <p>{msg.content}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <form onSubmit={sendMessage} className="mt-4">
                     <input
                         type="text"
