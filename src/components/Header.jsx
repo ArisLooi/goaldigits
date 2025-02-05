@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
 import { FaLocationArrow, FaRocketchat, FaBell, FaRegUser, FaMoon, FaSun, FaAdjust } from 'react-icons/fa';
 import ChatbotModal from '../components/ChatbotModal';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     // State to track mobile menu visibility
@@ -101,8 +102,22 @@ const Header = () => {
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     {/* <Link to="/budgets" className={getLinkClassName("/budgets")}>Set Goals</Link> */}
-                                    <Link to="/transactions" className={getLinkClassName("/transactions")}>Keep Track</Link>
-                                    <Link to="/reports" className={getLinkClassName("/reports")}>See Progress</Link>
+                                    <Link to={currentUser ? "/transactions" : "#"}
+                                        className={getLinkClassName("/transactions")}
+                                        onClick={(e) => {
+                                            if (!currentUser) {
+                                                e.preventDefault();
+                                                toast.warning("You need to log in to access this page!");
+                                            }
+                                        }}>Keep Track</Link>
+                                    <Link to={currentUser ? "/reports" : "#"}
+                                        className={getLinkClassName("/reports")}
+                                        onClick={(e) => {
+                                            if (!currentUser) {
+                                                e.preventDefault();
+                                                toast.warning("You need to log in to access this page!");
+                                            }
+                                        }}>See Progress</Link>
                                 </div>
                             </div>
                         </div>
@@ -179,8 +194,18 @@ const Header = () => {
                         <div className="md:hidden" id="mobile-menu">
                             <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                                 {/* <Link to="/budgets" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Set Goals</Link> */}
-                                <Link to="/transactions" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Keep Track</Link>
-                                <Link to="/reports" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">See Progress</Link>
+                                <Link to={currentUser ? "/transactions" : "#"} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={(e) => {
+                                    if (!currentUser) {
+                                        e.preventDefault();
+                                        toast.warning("You need to log in to access this page!");
+                                    }
+                                }}>Keep Track</Link>
+                                <Link to={currentUser ? "/reports" : "#"} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={(e) => {
+                                    if (!currentUser) {
+                                        e.preventDefault();
+                                        toast.warning("You need to log in to access this page!");
+                                    }
+                                }}>See Progress</Link>
                             </div>
                             <div className="border-t border-gray-700 pb-3 pt-4">
                                 <div className="flex items-center px-5">
