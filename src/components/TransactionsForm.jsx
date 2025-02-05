@@ -330,7 +330,7 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
                 <button
                     type="submit"
-                    className={`mb-4 p-3 flex items-center justify-center w-full gap-2 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500'} px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`} disabled={loading}
+                    className={`mb-4 p-3 rounded-md flex items-center justify-center w-full gap-2 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500'} px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`} disabled={loading}
                 >
                     {loading ? (
                         <>
