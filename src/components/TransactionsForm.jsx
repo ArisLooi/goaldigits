@@ -156,10 +156,17 @@ const TransactionsForm = ({ refreshTransactions }) => {
 
             // Upload image to Firebase storage if an image is selected
             if (image) {
-                const storageRef = ref(storage, `images/${image.name}`);
-                const snapshot = await uploadBytes(storageRef, image);
-                uploadedImageUrl = await getDownloadURL(snapshot.ref);
-                // console.log("Image", image);
+                try {
+                    const storageRef = ref(storage, `images/${currentUser.uid}/${image.name}`);
+                    const snapshot = await uploadBytes(storageRef, image);
+                    uploadedImageUrl = await getDownloadURL(snapshot.ref);
+                    console.log('Image uploaded successfully:', uploadedImageUrl);
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    toast.error('Error uploading image. Please try again.');
+                    setLoading(false); // Hide loading
+                    return;
+                }
             }
 
             const data = {
